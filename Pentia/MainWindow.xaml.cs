@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Windows;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Pentia.Views;
 
 namespace Pentia {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : NavigationWindow {
+        TitlePage ttlPage;
+        GamePage gmPage;
+        public GamePage GmPage { get { return gmPage; } }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainWindow() {
             InitializeComponent();
+
+            this.ttlPage = new TitlePage(this);
+            this.gmPage = new GamePage(this);
+            this.Navigate(ttlPage);
         }
     }
 }
