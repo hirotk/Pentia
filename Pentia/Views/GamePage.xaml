@@ -5,10 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="GamePage">
+	Title="GamePage" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
 
     <Grid>
-        <Canvas HorizontalAlignment="Left" Height="200" Margin="100,50,0,0" VerticalAlignment="Top" Width="100" Background="#FFC8C8FF"/>
+        <Canvas HorizontalAlignment="Left" Height="200" Margin="100,50,0,0" VerticalAlignment="Top" Width="100" Background="#FFC8C8FF">
+        </Canvas>
+        <TextBlock Name="tbMonitor" HorizontalAlignment="Left" Margin="20,60,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
