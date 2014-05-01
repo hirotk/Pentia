@@ -5,15 +5,22 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Pentia.Views;
 using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace Pentia.Controllers {
     public interface IGameController {
         void Initialize(GamePage page);
         bool Start();
         bool Stop();
+        void OnTick(object sender, EventArgs e);
     }
 
-    public class GameController : IGameController, INotifyPropertyChanged {
+    public interface IUpdatable {
+        void Reset();
+        void Update();
+    }
+
+    public class GameController : IGameController, IUpdatable, INotifyPropertyChanged {
         private static GameController instance = new GameController();
         public static GameController GetInstance() { return GameController.instance; }
         private GameController() {;}
@@ -35,6 +42,8 @@ namespace Pentia.Controllers {
             }
         }
 
+        private DispatcherTimer timer = new DispatcherTimer();  
+
         public void Initialize(GamePage page) {
             var binding = new Binding();
 
@@ -43,16 +52,37 @@ namespace Pentia.Controllers {
 
             page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
             this.Status = "Initialize a game.\n";
+            timer.Tick += this.OnTick;
+            timer.Interval = new TimeSpan(days: 0, hours: 0, minutes:0, seconds: 0, milliseconds: 500);
         }
 
         public bool Start() {
             this.Status += "Start the game.\n";
+            if (timer.IsEnabled == false) {
+                timer.Start();
+            }
             return true;
         }
 
         public bool Stop() {
             this.Status += "Stop the game.\n";
+            if (timer.IsEnabled) {
+                timer.Stop();
+            }
             return true;
+        }
+
+        public void OnTick(object sender, EventArgs e) {
+            this.Update();
+        }
+
+        public void Reset() {
+            this.Stop();
+            this.Status = "Reset a game.\n";
+        }
+
+        public void Update() {
+            this.Status += "Update the game.\n";
         }
     }
 }

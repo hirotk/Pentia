@@ -6,13 +6,13 @@ namespace Pentia.Views {
     /// Interaction logic for GamePage.xaml
     /// </summary>
     public partial class GamePage : Page {
-        static MainWindow mainWnd;
+        public MainWindow MainWnd { get; private set; }
         private GameController game = GameController.GetInstance();
 
         public GamePage(MainWindow wnd) {
             InitializeComponent();
 
-            mainWnd = wnd;
+            MainWnd = wnd;
             this.ShowsNavigationUI = true;
 
             // Todo: Initialize Game
