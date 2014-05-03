@@ -4,13 +4,29 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignWidth="500" d:DesignHeight="600"
 	Title="GamePage" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
 
-    <Grid>
-        <Canvas HorizontalAlignment="Left" Height="200" Margin="100,50,0,0" VerticalAlignment="Top" Width="100" Background="#FFC8C8FF">
-        </Canvas>
-        <TextBlock Name="tbMonitor" HorizontalAlignment="Left" Margin="20,60,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+    <DockPanel Width="500" Height="600" Margin="0,-2,0,2">
+        <StackPanel Name="spRecorder" DockPanel.Dock="Left" Width="150" Background="#80c08080">
+            <TextBlock>Next</TextBlock>
+            <StackPanel Name="spNextBoard">
+                <Canvas Name="cvNextField" Width="100" Height="100" Background="#f0c0c0f0"></Canvas>
+            </StackPanel>
+            <TextBlock>Score</TextBlock>
+            <TextBlock Name="tbScore">0</TextBlock>
+            <TextBlock>Level</TextBlock>
+            <TextBlock Name="tbLevel">1</TextBlock>
+            <TextBlock>Lines</TextBlock>
+            <TextBlock Name="tbLines">0</TextBlock>
+        </StackPanel>
 
-    </Grid>
+        <StackPanel Name="spBoard" DockPanel.Dock="Right" Width="350" Background="#8080c080">
+            <Canvas Name="cvField"  Width="200" Height="400" Margin="10,20,0,0"  Background="#f0c0c0f0">
+            </Canvas>
+
+            <TextBlock Name="tbMonitor" HorizontalAlignment="Left" Margin="20,-400,0,0" TextWrapping="Wrap" Text="TextBlock" />
+        </StackPanel>
+       
+    </DockPanel>
 </Page>

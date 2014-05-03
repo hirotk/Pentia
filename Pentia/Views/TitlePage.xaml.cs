@@ -30,5 +30,9 @@ namespace Pentia.Views {
         private void PlayButton_Click(object sender, RoutedEventArgs e) {
             this.NavigationService.Navigate(mainWnd.GmPage);
         }
+
+        private void QuitButton_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
+        }
     }
 }
