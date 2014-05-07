@@ -18,17 +18,16 @@ namespace Pentia.Views {
     /// Interaction logic for TitlePage.xaml
     /// </summary>
     public partial class TitlePage : Page {
-        static MainWindow mainWnd;
+        private MainWindow mainWnd;
 
         public TitlePage(MainWindow wnd) {
             InitializeComponent();
-
-            mainWnd = wnd;
+            this.mainWnd = wnd;
             this.ShowsNavigationUI = false;
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e) {
-            this.NavigationService.Navigate(mainWnd.GmPage);
+            this.NavigationService.Navigate(new GamePage(this.mainWnd));
         }
 
         private void QuitButton_Click(object sender, RoutedEventArgs e) {

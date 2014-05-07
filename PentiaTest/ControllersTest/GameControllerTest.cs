@@ -9,12 +9,12 @@ namespace PentiaTest.ControllersTest {
     [TestClass]
     public class GameControllerTest {
         private static GameController target;
-        private static MainWindow wnd;
+        private static GamePage page;
 
         [ClassInitialize]
         public static void InitializeTarget(TestContext testContext) {
             target = GameController.GetInstance();
-            wnd = new MainWindow();
+            page = new GamePage(new MainWindow());
         }
 
         [TestInitialize()]
@@ -24,9 +24,25 @@ namespace PentiaTest.ControllersTest {
         [TestMethod]
         public void InitializeTest() {
             string expected = "Initialize a game.\n";
-            target.Initialize(wnd.GmPage);
+            target.Initialize(page);
             string actual = target.Status;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TerminateTest() {
+            var expected = new StringBuilder();
+            expected.Append("Initialize a game.\n");
+            expected.Append("Start the game.\n");
+            expected.Append("Update the game.\n");
+            expected.Append("Stop the game.\n");
+            expected.Append("Terminate the game.\n");
+            target.Initialize(page);
+            target.Start();
+            target.Update();
+            target.Terminate();
+            string actual = target.Status;
+            Assert.AreEqual(expected.ToString(), actual);
         }
 
         [TestMethod]
@@ -57,7 +73,7 @@ namespace PentiaTest.ControllersTest {
             expected.Append("Initialize a game.\n");
             expected.Append("Start the game.\n");
             expected.Append("Update the game.\n");
-            target.Initialize(wnd.GmPage);
+            target.Initialize(page);
             target.Start();
             target.Update();
             string actual = target.Status;

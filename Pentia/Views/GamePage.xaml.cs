@@ -7,16 +7,16 @@ namespace Pentia.Views {
     /// </summary>
     public partial class GamePage : Page {
         public MainWindow MainWnd { get; private set; }
-        private GameController game = GameController.GetInstance();
+        private GameController game;
 
         public GamePage(MainWindow wnd) {
             InitializeComponent();
 
-            MainWnd = wnd;
+            this.MainWnd = wnd;
             this.ShowsNavigationUI = true;
 
-            // Todo: Initialize Game
-            game.Initialize(this);
+            this.game = GameController.GetInstance();
+            this.game.Initialize(this);
         }
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e) {
@@ -25,8 +25,8 @@ namespace Pentia.Views {
         }
 
         private void Page_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
-            // Todo: Stop Game
-            game.Stop();
+            // Todo: Terminate Game
+            game.Terminate();
         }
     }
 }

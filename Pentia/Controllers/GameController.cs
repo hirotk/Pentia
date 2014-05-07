@@ -10,6 +10,7 @@ using System.Windows.Threading;
 namespace Pentia.Controllers {
     public interface IGameController {
         void Initialize(GamePage page);
+        void Terminate();
         bool Start();
         bool Stop();
         void OnTick(object sender, EventArgs e);
@@ -24,6 +25,8 @@ namespace Pentia.Controllers {
         private static GameController instance = new GameController();
         public static GameController GetInstance() { return GameController.instance; }
         private GameController() {;}
+
+        private GamePage page;
 
         private string status;
         public string Status {
@@ -42,18 +45,26 @@ namespace Pentia.Controllers {
             }
         }
 
-        private DispatcherTimer timer = new DispatcherTimer();  
+        private DispatcherTimer timer;
 
         public void Initialize(GamePage page) {
+            this.page = page;
+            this.timer = new DispatcherTimer();
+            timer.Tick += this.OnTick;
+            timer.Interval = new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 0, milliseconds: 500);
+            
             var binding = new Binding();
-
             binding.Source = this;
             binding.Path = new PropertyPath("Status");
 
             page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
             this.Status = "Initialize a game.\n";
-            timer.Tick += this.OnTick;
-            timer.Interval = new TimeSpan(days: 0, hours: 0, minutes:0, seconds: 0, milliseconds: 500);
+        }
+
+        public void Terminate() {
+            this.Stop();
+            //Todo: Release resources
+            this.Status += "Terminate the game.\n";
         }
 
         public bool Start() {
