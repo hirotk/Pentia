@@ -4,6 +4,9 @@ using Pentia.Controllers;
 using Pentia.Views;
 using Pentia;
 using System.Text;
+using System.Windows.Input;
+using Moq;
+using System.Windows;
 
 namespace PentiaTest.ControllersTest {
     [TestClass]
@@ -13,12 +16,13 @@ namespace PentiaTest.ControllersTest {
 
         [ClassInitialize]
         public static void InitializeTarget(TestContext testContext) {
-            target = GameController.GetInstance();
             page = new GamePage(new MainWindow());
+            target = page.GameCtrl;
         }
 
         [TestInitialize()]
         public void BeginTestMethod() {
+            target.Initialize(page);
         }
 
         [TestMethod]
@@ -57,6 +61,31 @@ namespace PentiaTest.ControllersTest {
             bool expected = true;
             bool actual = target.Stop();
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OnKeyDownTest() {
+            var expected = new StringBuilder();
+            expected.Append("Initialize a game.\n");
+            expected.Append("Left\n");
+            expected.Append("Right\n");
+            expected.Append("Down\n");
+            expected.Append("Rotate\n");
+            expected.Append("Pause/Start\n");
+
+            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
+                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.J));
+            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
+                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.L));
+            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
+                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.N));
+            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
+                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.K));
+            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
+                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.P));
+
+            string actual = target.Status;
+            Assert.AreEqual(expected.ToString(), actual);
         }
 
         [TestMethod]

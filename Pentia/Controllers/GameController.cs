@@ -6,6 +6,7 @@ using System.Windows.Data;
 using Pentia.Views;
 using System.ComponentModel;
 using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace Pentia.Controllers {
     public interface IGameController {
@@ -52,7 +53,9 @@ namespace Pentia.Controllers {
             this.timer = new DispatcherTimer();
             timer.Tick += this.OnTick;
             timer.Interval = new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 0, milliseconds: 500);
-            
+
+            this.page.MainWnd.KeyDown += this.OnKeyDown;
+
             var binding = new Binding();
             binding.Source = this;
             binding.Path = new PropertyPath("Status");
@@ -85,6 +88,17 @@ namespace Pentia.Controllers {
 
         public void OnTick(object sender, EventArgs e) {
             this.Update();
+        }
+
+        public void OnKeyDown(object sender, KeyEventArgs e) {
+            switch (e.Key) {
+//                case Key.I: this.Status += "Up\n"; break;
+                case Key.J: this.Status += "Left\n"; break;
+                case Key.L: this.Status += "Right\n"; break;
+                case Key.N: this.Status += "Down\n"; break;
+                case Key.K: this.Status += "Rotate\n"; break;
+                case Key.P: this.Status += "Pause/Start\n"; break;
+            }
         }
 
         public void Reset() {
