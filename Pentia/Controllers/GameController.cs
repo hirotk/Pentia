@@ -7,6 +7,7 @@ using Pentia.Views;
 using System.ComponentModel;
 using System.Windows.Threading;
 using System.Windows.Input;
+using Pentia.Models;
 
 namespace Pentia.Controllers {
     public interface IGameController {
@@ -48,6 +49,8 @@ namespace Pentia.Controllers {
 
         private DispatcherTimer timer;
 
+        private Board board;
+
         public void Initialize(GamePage page) {
             this.page = page;
             this.timer = new DispatcherTimer();
@@ -62,6 +65,10 @@ namespace Pentia.Controllers {
 
             page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
             this.Status = "Initialize a game.\n";
+
+            // Generate Model Objects
+            var cvs = this.page.cvField;
+            board = new Board();
         }
 
         public void Terminate() {
@@ -97,17 +104,28 @@ namespace Pentia.Controllers {
                 case Key.L: this.Status += "Right\n"; break;
                 case Key.N: this.Status += "Down\n"; break;
                 case Key.K: this.Status += "Rotate\n"; break;
-                case Key.P: this.Status += "Pause/Start\n"; break;
+                case Key.P: 
+                    this.Status += "Pause/Start\n";
+                    if (this.timer.IsEnabled) {
+                        this.Stop();
+                    } else {
+                        this.Start();
+                    }
+                    break;
             }
         }
 
         public void Reset() {
             this.Stop();
-            this.Status = "Reset a game.\n";
+            this.Status = "Reset a game.\n";            
+            board.Reset();
+            this.Status += board.Status;
         }
 
         public void Update() {
             this.Status += "Update the game.\n";
+            board.Update();
+            this.Status += board.Status;
         }
     }
 }

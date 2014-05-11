@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Input;
 using Moq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PentiaTest.ControllersTest {
     [TestClass]
@@ -17,7 +18,7 @@ namespace PentiaTest.ControllersTest {
         [ClassInitialize]
         public static void InitializeTarget(TestContext testContext) {
             page = new GamePage(new MainWindow());
-            target = page.GameCtrl;
+            target = page.GameCtrl;            
         }
 
         [TestInitialize()]

@@ -64,11 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllersTest\GameControllerTest.cs" />
+    <Compile Include="ModelsTest\BoardTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ModelsTest\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
