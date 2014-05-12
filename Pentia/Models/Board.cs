@@ -9,16 +9,22 @@ namespace Pentia.Models {
     public class Board : IUpdatable {
         public string Status { get; set; }
 
-        public Board() { 
-            
+        private Field field;
+
+        public Board(Field field) {
+            this.field = field;
         }
 
         public void Update() {
             this.Status = "Update the board\n";
+            this.field.Update();
+            this.Status += field.Status;
         }
 
         public void Reset() {
             this.Status = "Reset the board\n";
+            this.field.Reset();
+            this.Status += field.Status;
         }
 
     }

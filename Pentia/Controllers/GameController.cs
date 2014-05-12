@@ -64,21 +64,22 @@ namespace Pentia.Controllers {
             binding.Path = new PropertyPath("Status");
 
             page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
-            this.Status = "Initialize a game.\n";
 
             // Generate Model Objects
-            var cvs = this.page.cvField;
-            board = new Board();
+            var field = new Field(this.page.cvField, 10, 20);
+            board = new Board(field);
+
+            this.Reset();
         }
 
         public void Terminate() {
             this.Stop();
             //Todo: Release resources
-            this.Status += "Terminate the game.\n";
+            this.Status += "Terminate the game\n";
         }
 
         public bool Start() {
-            this.Status += "Start the game.\n";
+            this.Status += "Start the game\n";
             if (timer.IsEnabled == false) {
                 timer.Start();
             }
@@ -86,7 +87,7 @@ namespace Pentia.Controllers {
         }
 
         public bool Stop() {
-            this.Status += "Stop the game.\n";
+            this.Status += "Stop the game\n";
             if (timer.IsEnabled) {
                 timer.Stop();
             }
@@ -117,13 +118,13 @@ namespace Pentia.Controllers {
 
         public void Reset() {
             this.Stop();
-            this.Status = "Reset a game.\n";            
+            this.Status = "Reset the game\n";            
             board.Reset();
             this.Status += board.Status;
         }
 
         public void Update() {
-            this.Status += "Update the game.\n";
+            this.Status += "Update the game\n";
             board.Update();
             this.Status += board.Status;
         }

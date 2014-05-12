@@ -28,7 +28,11 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void InitializeTest() {
-            string expected = "Initialize a game.\n";
+            var sb = new StringBuilder();
+            sb.Append("Reset the game\n");
+            sb.Append("Reset the board\n");
+            sb.Append("Reset the field\n");
+            string expected = sb.ToString();
             target.Initialize(page);
             string actual = target.Status;
             Assert.AreEqual(expected, actual);
@@ -36,12 +40,18 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void TerminateTest() {
-            var expected = new StringBuilder();
-            expected.Append("Initialize a game.\n");
-            expected.Append("Start the game.\n");
-            expected.Append("Update the game.\n");
-            expected.Append("Stop the game.\n");
-            expected.Append("Terminate the game.\n");
+            var sb = new StringBuilder();
+            sb.Append("Reset the game\n");
+            sb.Append("Reset the board\n");
+            sb.Append("Reset the field\n");
+            sb.Append("Start the game\n");
+            sb.Append("Update the game\n");
+            sb.Append("Update the board\n");
+            sb.Append("Update the field\n");
+            sb.Append("Stop the game\n");
+            sb.Append("Terminate the game\n");            
+            string expected = sb.ToString();
+
             target.Initialize(page);
             target.Start();
             target.Update();
@@ -66,13 +76,17 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void OnKeyDownTest() {
-            var expected = new StringBuilder();
-            expected.Append("Initialize a game.\n");
-            expected.Append("Left\n");
-            expected.Append("Right\n");
-            expected.Append("Down\n");
-            expected.Append("Rotate\n");
-            expected.Append("Pause/Start\n");
+            var sb = new StringBuilder();
+            sb.Append("Reset the game\n");
+            sb.Append("Reset the board\n");
+            sb.Append("Reset the field\n"); 
+            sb.Append("Left\n");
+            sb.Append("Right\n");
+            sb.Append("Down\n");
+            sb.Append("Rotate\n");
+            sb.Append("Pause/Start\n");
+            sb.Append("Start the game\n");
+            string expected = sb.ToString();
 
             target.OnKeyDown(page.MainWnd, new KeyEventArgs(
                 Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.J));
@@ -91,7 +105,11 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void ResetTest() {
-            string expected = "Reset a game.\n";
+            var sb = new StringBuilder();
+            sb.Append("Reset the game\n");
+            sb.Append("Reset the board\n");
+            sb.Append("Reset the field\n"); 
+            string expected = sb.ToString();
             target.Reset();
             string actual = target.Status;
             Assert.AreEqual(expected, actual);
@@ -99,10 +117,15 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void UpdateTest() {
-            var expected = new StringBuilder();
-            expected.Append("Initialize a game.\n");
-            expected.Append("Start the game.\n");
-            expected.Append("Update the game.\n");
+            var sb = new StringBuilder();
+            sb.Append("Reset the game\n");
+            sb.Append("Reset the board\n");
+            sb.Append("Reset the field\n");
+            sb.Append("Start the game\n");
+            sb.Append("Update the game\n");
+            sb.Append("Update the board\n");
+            sb.Append("Update the field\n");
+            string expected = sb.ToString();
             target.Initialize(page);
             target.Start();
             target.Update();
