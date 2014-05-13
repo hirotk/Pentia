@@ -14,13 +14,12 @@ namespace Pentia.Views {
 
             this.MainWnd = wnd;
             this.ShowsNavigationUI = true;
-
             this.GameCtrl = GameController.GetInstance();
-            this.GameCtrl.Initialize(this);
         }
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e) {
             // Todo: Start Game
+            this.GameCtrl.Initialize(this);
             GameCtrl.Start();
         }
 

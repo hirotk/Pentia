@@ -73,9 +73,9 @@ namespace Pentia.Controllers {
         }
 
         public void Terminate() {
-            this.Stop();
             //Todo: Release resources
             this.Status += "Terminate the game\n";
+            this.page.MainWnd.KeyDown -= this.OnKeyDown;
         }
 
         public bool Start() {
