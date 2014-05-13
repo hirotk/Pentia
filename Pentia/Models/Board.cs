@@ -10,13 +10,15 @@ namespace Pentia.Models {
         public string Status { get; set; }
 
         private Field field;
+        private Piece piece;
 
         public Board(Field field) {
             this.field = field;
+            this.piece = new Piece();
         }
 
         public void Update() {
-            this.Status = "Update the board\n";
+            this.Status += "Update the board\n";
             this.field.Update();
             this.Status += field.Status;
         }
@@ -25,6 +27,18 @@ namespace Pentia.Models {
             this.Status = "Reset the board\n";
             this.field.Reset();
             this.Status += field.Status;
+        }
+
+        public bool MovePiece(Direction direction) {
+            bool moved = piece.Move(direction);
+            this.Status += piece.Status;
+            return moved;
+        }
+
+        public bool RotatePiece(RtDirection direction) {
+            bool rotated = piece.Rotate(direction);
+            this.Status += piece.Status;
+            return rotated;
         }
 
     }

@@ -21,7 +21,7 @@ namespace PentiaTest.ControllersTest {
             target = page.GameCtrl;            
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void BeginTestMethod() {
             target.Initialize(page);
         }
@@ -80,22 +80,27 @@ namespace PentiaTest.ControllersTest {
             sb.Append("Reset the game\n");
             sb.Append("Reset the board\n");
             sb.Append("Reset the field\n"); 
-            sb.Append("Left\n");
-            sb.Append("Right\n");
-            sb.Append("Down\n");
-            sb.Append("Rotate\n");
+            
+            sb.Append("Update the game\n");
+            sb.Append("Move the piece to the left\n");
+            sb.Append("Update the board\n");
+            sb.Append("Update the field\n");
+
             sb.Append("Pause/Start\n");
             sb.Append("Start the game\n");
             string expected = sb.ToString();
 
             target.OnKeyDown(page.MainWnd, new KeyEventArgs(
                 Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.J));
-            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
+/*            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
                 Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.L));
             target.OnKeyDown(page.MainWnd, new KeyEventArgs(
                 Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.N));
             target.OnKeyDown(page.MainWnd, new KeyEventArgs(
-                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.K));
+                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.K));*/
+
+            target.Update();
+
             target.OnKeyDown(page.MainWnd, new KeyEventArgs(
                 Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.P));
 

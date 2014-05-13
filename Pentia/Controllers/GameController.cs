@@ -19,8 +19,8 @@ namespace Pentia.Controllers {
     }
 
     public interface IUpdatable {
-        void Reset();
         void Update();
+        void Reset();
     }
 
     public class GameController : IGameController, IUpdatable, INotifyPropertyChanged {
@@ -55,7 +55,7 @@ namespace Pentia.Controllers {
             this.page = page;
             this.timer = new DispatcherTimer();
             timer.Tick += this.OnTick;
-            timer.Interval = new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 0, milliseconds: 500);
+            timer.Interval = new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 1, milliseconds: 0);
 
             this.page.MainWnd.KeyDown += this.OnKeyDown;
 
@@ -74,6 +74,7 @@ namespace Pentia.Controllers {
 
         public void Terminate() {
             //Todo: Release resources
+            this.Stop();
             this.Status += "Terminate the game\n";
             this.page.MainWnd.KeyDown -= this.OnKeyDown;
         }
@@ -101,10 +102,11 @@ namespace Pentia.Controllers {
         public void OnKeyDown(object sender, KeyEventArgs e) {
             switch (e.Key) {
 //                case Key.I: this.Status += "Up\n"; break;
-                case Key.J: this.Status += "Left\n"; break;
-                case Key.L: this.Status += "Right\n"; break;
-                case Key.N: this.Status += "Down\n"; break;
-                case Key.K: this.Status += "Rotate\n"; break;
+                case Key.J: board.MovePiece(Direction.Left); break;
+                case Key.L: board.MovePiece(Direction.Right); break;
+                case Key.N: board.MovePiece(Direction.Down); break;
+                case Key.K: board.RotatePiece(RtDirection.Clockwise); break;
+                case Key.I: board.RotatePiece(RtDirection.CtrClockwise); break;
                 case Key.P: 
                     this.Status += "Pause/Start\n";
                     if (this.timer.IsEnabled) {
@@ -116,17 +118,19 @@ namespace Pentia.Controllers {
             }
         }
 
+        public void Update() {
+            this.Status += "Update the game\n";
+            board.Update();
+            this.Status += board.Status;
+            board.Status = "";
+        }
+
         public void Reset() {
             this.Stop();
             this.Status = "Reset the game\n";            
             board.Reset();
             this.Status += board.Status;
-        }
-
-        public void Update() {
-            this.Status += "Update the game\n";
-            board.Update();
-            this.Status += board.Status;
+            board.Status = "";
         }
     }
 }

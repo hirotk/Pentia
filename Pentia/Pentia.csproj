@@ -59,6 +59,7 @@
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\Piece.cs" />
     <Compile Include="Views\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>

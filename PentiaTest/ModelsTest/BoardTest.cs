@@ -12,9 +12,12 @@ namespace PentiaTest.ModelsTest {
         public static void InitializeTarget(TestContext testContext) {
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void BeginTestMethod() {
-            var field = new Field(new Canvas(), 10, 20);
+            var cvs = new Canvas();
+            cvs.Width = 200;
+            cvs.Height = 400;
+            var field = new Field(cvs, 10, 20);
             target = new Board(field);
         }
 
