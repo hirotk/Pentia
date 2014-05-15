@@ -36,6 +36,14 @@ namespace Pentia.Models {
             this.Status = "Reset the field\n";        
         }
 
+        public void PutPiece(Piece piece) {
+            cells[piece.X, piece.Y] = 1;
+        }
+
+        public void RemovePiece(Piece piece) {
+            cells[piece.X, piece.Y] = 0;
+        }
+
         private class Renderer {
             private Canvas canvas;
             private int cols, rows;
@@ -68,11 +76,20 @@ namespace Pentia.Models {
                 // Todo: Update rcCells based on the current cells
 
                 // Test draw
-                rcCells[0, 0].Fill = Brushes.Red;
+/*                rcCells[0, 0].Fill = Brushes.Red;
                 rcCells[cols - 1, 0].Fill = Brushes.Green;
                 rcCells[0, rows - 1].Fill = Brushes.Blue;
-                rcCells[cols - 1, rows - 1].Fill = Brushes.Cyan;
-                rcCells[(cols - 1) / 2, (rows - 1) / 2].Fill = Brushes.Magenta;
+                rcCells[cols - 1, rows - 1].Fill = Brushes.Cyan;*/
+
+                for (int j = 0; j < rows; j++) {
+                    for (int i = 0; i < cols; i++) {
+                        if (0 < cells[i, j]) {
+                            rcCells[i, j].Fill = Brushes.Magenta;
+                        } else {
+                            rcCells[i, j].Fill = Brushes.LightYellow;                        
+                        }
+                    }
+                }
             }
         }
     }

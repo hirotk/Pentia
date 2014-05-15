@@ -14,12 +14,13 @@ namespace Pentia.Models {
 
         public Board(Field field) {
             this.field = field;
-            this.piece = new Piece();
+            this.piece = new Piece(field.COLS / 2, 0, field);
         }
 
         public void Update() {
             this.Status += "Update the board\n";
-            this.field.Update();
+//            this.field.Update();
+            piece.Move(Direction.Down);
             this.Status += field.Status;
         }
 
