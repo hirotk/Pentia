@@ -14,7 +14,7 @@ namespace Pentia.Models {
 
         public int COLS { get; private set; }
         public int ROWS { get; private set; }
-        private int[,] cells;
+        private PcColor[,] cells;
         private Canvas canvas;
         private Renderer renderer;
 
@@ -24,7 +24,7 @@ namespace Pentia.Models {
             this.ROWS = rows;
             this.renderer = new Renderer(this);
 
-            cells = new int[COLS, ROWS];
+            cells = new PcColor[COLS, ROWS];
         }
 
         public void Update() {
@@ -37,14 +37,21 @@ namespace Pentia.Models {
         }
 
         public void PutPiece(Piece piece) {
-            cells[piece.X, piece.Y] = 1;
+            foreach (NPoint pt in piece.Shape) {
+                cells[piece.X + pt.x, piece.Y + pt.y] = piece.Color;
+            }
         }
 
         public void RemovePiece(Piece piece) {
-            cells[piece.X, piece.Y] = 0;
+            foreach (NPoint pt in piece.Shape) {
+                cells[piece.X + pt.x, piece.Y + pt.y] = PcColor.None;
+            }
         }
 
         private class Renderer {
+            private static readonly Brush[] PC_BRS =
+                { Brushes.MintCream, Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow};
+
             private Canvas canvas;
             private int cols, rows;
             private Rectangle[,] rcCells;
@@ -64,7 +71,7 @@ namespace Pentia.Models {
                         rcCells[i, j] = new Rectangle();
                         rcCells[i, j].Width = cellWidth;
                         rcCells[i, j].Height = cellHeight;
-                        rcCells[i, j].Fill = Brushes.LightYellow;
+                        rcCells[i, j].Fill = Brushes.MintCream;
                         Canvas.SetLeft(rcCells[i, j], i  * cellWidth);
                         Canvas.SetTop(rcCells[i, j], j  * cellHeight);
                         canvas.Children.Add(rcCells[i, j]);
@@ -72,7 +79,7 @@ namespace Pentia.Models {
                 }
             }
 
-            public void Draw(int[,] cells) { 
+            public void Draw(PcColor[,] cells) { 
                 // Todo: Update rcCells based on the current cells
 
                 // Test draw
@@ -83,11 +90,8 @@ namespace Pentia.Models {
 
                 for (int j = 0; j < rows; j++) {
                     for (int i = 0; i < cols; i++) {
-                        if (0 < cells[i, j]) {
-                            rcCells[i, j].Fill = Brushes.Magenta;
-                        } else {
-                            rcCells[i, j].Fill = Brushes.LightYellow;                        
-                        }
+                        int c = (int)cells[i,j];
+                        rcCells[i, j].Fill = PC_BRS[c];
                     }
                 }
             }

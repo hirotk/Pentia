@@ -14,7 +14,7 @@ namespace Pentia.Models {
 
         public Board(Field field) {
             this.field = field;
-            this.piece = new Piece(field.COLS / 2, 0, field);
+            this.piece = new Piece(field, field.COLS / 2, 1, PcColor.Blue, PcType.J);
         }
 
         public void Update() {

@@ -22,18 +22,54 @@ namespace Pentia.Models {
         Clockwise, CtrClockwise
     }
 
+    public enum PcColor {
+        None = 0,
+        Red,
+        Lime,
+        Blue,
+        Cyan,
+        Magenta,
+        Yellow,
+
+        Wall,
+        Leng
+    }
+
+    public enum PcType {
+        I = 0, 
+        L, 
+        J, 
+        T, 
+
+        Leng
+    }
+
     public class Piece {
+        private static readonly NPoint[][] PC_SHPS = {
+            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-2,0), new NPoint(2,0)}, // I
+            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(2,0), new NPoint(2,-1)}, // L
+            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-2,0), new NPoint(-2,-1)}, // J
+            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(2,0)} // T
+        };
+
         public string Status { get; set; }
+
+        private Field field;
 
         private NPoint pos;
         public int X { get { return pos.x; } }
         public int Y { get { return pos.y; } }
 
-        private Field field;
+        public PcColor Color { get; private set; }
+        public NPoint[] Shape { get; private set; }
 
-        public Piece(int x, int y, Field field) {
-            this.pos = new NPoint(x, y);
+        public Piece(Field field, int x, int y, PcColor color, PcType type) {
             this.field = field;
+            
+            this.pos = new NPoint(x, y);
+            this.Color = color;
+            this.Shape = PC_SHPS[(int)type];
+
             field.PutPiece(this);
         }
 
@@ -48,10 +84,14 @@ namespace Pentia.Models {
             }
 
             int COLS = field.COLS, ROWS = field.ROWS;
-            int tx = pos.x + dx, ty = pos.y + dy;
 
-            if (tx < 0 || COLS <= tx || ty < 0 || ROWS <= ty) {
-                result = false;
+            foreach (NPoint pt in Shape) {
+                int tx = pos.x + pt.x + dx;
+                int ty = pos.y + pt.y + dy;
+
+                if (tx < 0 || COLS <= tx || ty < 0 || ROWS <= ty) {
+                    result = false;
+                }
             }
 
             return result;

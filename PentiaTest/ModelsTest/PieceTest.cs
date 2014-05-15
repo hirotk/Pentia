@@ -19,19 +19,19 @@ namespace PentiaTest.ModelsTest {
 
         [TestInitialize]
         public void BeginTestMethod() {
-            target = new Piece(field.COLS / 2, 0, field);
+            target = new Piece(field, field.COLS / 2, 1, PcColor.Blue, PcType.J);
         }
 
         [TestMethod]
         public void MoveLeftTest() {
-            int expected = 4;
+            int expected = target.X - 1;
             target.Move(Direction.Left);
             int actual = target.X;
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
         public void MoveLeftMaxTest() {
-            int expected = 0;
+            int expected = 2;
             for (int i = 0; i < field.COLS; i++) {
                 target.Move(Direction.Left);
             }
@@ -41,14 +41,14 @@ namespace PentiaTest.ModelsTest {
 
         [TestMethod]
         public void MoveRightTest() {
-            int expected = 6;
+            int expected = target.X + 1;
             target.Move(Direction.Right);
             int actual = target.X;
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
         public void MoveRightMaxTest() {
-            int expected = field.COLS - 1;
+            int expected = field.COLS - 2;
             for (int i = 0; i < field.COLS; i++) {
                 target.Move(Direction.Right);
             }
@@ -58,7 +58,7 @@ namespace PentiaTest.ModelsTest {
 
         [TestMethod]
         public void MoveDownTest() {
-            int expected = 1;
+            int expected = target.Y + 1;
             target.Move(Direction.Down);
             int actual = target.Y;
             Assert.AreEqual(expected, actual);
