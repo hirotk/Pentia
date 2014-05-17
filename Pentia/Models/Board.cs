@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Pentia.Controllers;
+using Pentia.Utilities;
 
 namespace Pentia.Models {
     public class Board : IUpdatable {

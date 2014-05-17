@@ -3,25 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pentia.Utilities;
 
 namespace Pentia.Models {
-    public struct NPoint {
-        public int x, y;
-
-        public NPoint(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    public enum Direction {
-        Left, Right, Down
-    }
-
-    public enum RtDirection {
-        Clockwise, CtrClockwise
-    }
-
     public enum PcColor {
         None = 0,
         Red,
@@ -44,7 +28,7 @@ namespace Pentia.Models {
         Leng
     }
 
-    public class Piece {
+    public class Piece : IMovable, IRotatable {
         private static readonly NPoint[][] PC_SHPS = {
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-2,0), new NPoint(2,0)}, // I
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(2,0), new NPoint(2,-1)}, // L
@@ -68,28 +52,22 @@ namespace Pentia.Models {
             
             this.pos = new NPoint(x, y);
             this.Color = color;
-            this.Shape = PC_SHPS[(int)type];
+
+            var PcShp = PC_SHPS[(int)type];
+            this.Shape = new NPoint[PcShp.Length];
+            PcShp.CopyTo(this.Shape, 0); 
 
             field.PutPiece(this);
         }
 
         private bool canMove(Direction direction) {
             bool result = true;
-            int dx = 0, dy = 0;
-
-            switch (direction) {
-                case Direction.Left: dx = -1; break;
-                case Direction.Right: dx = 1; break;
-                case Direction.Down: dy = 1; break;
-            }
-
             int COLS = field.COLS, ROWS = field.ROWS;
 
             foreach (NPoint pt in Shape) {
-                int tx = pos.x + pt.x + dx;
-                int ty = pos.y + pt.y + dy;
+                var tpt = pos + Mover.Move(pt, direction);
 
-                if (tx < 0 || COLS <= tx || ty < 0 || ROWS <= ty) {
+                if (tpt.x < 0 || COLS <= tpt.x || tpt.y < 0 || ROWS <= tpt.y) {
                     result = false;
                 }
             }
@@ -102,20 +80,22 @@ namespace Pentia.Models {
             bool moved = false;
 
             if (canMove(direction)) {
+
+                // Just output status
                 switch (direction) {
                     case Direction.Left:
                         this.Status = "Move the piece to the left\n";
-                        this.pos.x -= 1;
                         break;
                     case Direction.Right:
                         this.Status = "Move the piece to the right\n";
-                        this.pos.x += 1;
                         break;
                     case Direction.Down:
                         this.Status = "Move the piece to the down\n";
-                        this.pos.y += 1;
                         break;
                 }
+
+                Mover.Move(ref pos, direction);
+
                 moved = true;
             }
 
@@ -125,8 +105,18 @@ namespace Pentia.Models {
         }
 
         private bool canRotate(RtDirection direction) {
-            // Todo: Check if you can rotate the piece
-            return true; 
+            bool result = true;
+            int COLS = field.COLS, ROWS = field.ROWS;
+
+            foreach (NPoint pt in Shape) {
+                var tpt = this.pos + Rotator.Rotate(pt, direction);
+
+                if (tpt.x < 0 || COLS <= tpt.x || tpt.y < 0 || ROWS <= tpt.y) {
+                    result = false;
+                }
+            }
+
+            return result;
         }
 
         public bool Rotate(RtDirection direction) {
@@ -134,16 +124,19 @@ namespace Pentia.Models {
             bool rotated = false;
 
             if (canRotate(direction)) {
+
+                // Just output status
                 switch (direction) {
                     case RtDirection.Clockwise:
                         this.Status = "Rotate the piece to the clockwise\n";
-                        // Todo: Rotate the piece to the clockwise
                         break;
                     case RtDirection.CtrClockwise:
                         this.Status = "Rotate the piece to the counter clockwise\n";
-                        // Todo: Rotate the piece to the counter clockwise
                         break;
                 }
+
+                Rotator.Rotate(Shape, direction);
+
                 rotated = true;
             }
 

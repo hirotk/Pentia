@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows.Threading;
 using System.Windows.Input;
 using Pentia.Models;
+using Pentia.Utilities;
 
 namespace Pentia.Controllers {
     public interface IGameController {

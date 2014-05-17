@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Pentia.Models;
 using System.Windows.Controls;
+using Pentia.Models;
+using Pentia.Utilities;
 
 namespace PentiaTest.ModelsTest {
     [TestClass]
@@ -19,7 +20,7 @@ namespace PentiaTest.ModelsTest {
 
         [TestInitialize]
         public void BeginTestMethod() {
-            target = new Piece(field, field.COLS / 2, 1, PcColor.Blue, PcType.J);
+            target = new Piece(field, field.COLS / 2, 2, PcColor.Blue, PcType.J);
         }
 
         [TestMethod]
@@ -74,9 +75,48 @@ namespace PentiaTest.ModelsTest {
         }
 
         [TestMethod]
-        public void RotateTest() {
+        public void RotateClockwiseTest() {
             bool expected = true;
             bool actual = target.Rotate(RtDirection.Clockwise);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void RotateClockwiseAtLeftTest() {
+            bool expected = false;
+            target.Rotate(RtDirection.Clockwise);
+            for (int i = 0; i < field.COLS; i++) {
+                target.Move(Direction.Left);
+            }
+            bool actual = target.Rotate(RtDirection.Clockwise);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void RotateClockwiseAtBottomTest() {
+            bool expected = false;
+            for (int j = 0; j < field.ROWS; j++) {
+                target.Move(Direction.Down);
+            }
+            bool actual = target.Rotate(RtDirection.Clockwise);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void RotateCtrClockwiseTest() {
+            bool expected = true;
+            bool actual = target.Rotate(RtDirection.CtrClockwise);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void RotateCtrClockwiseAtRightTest() {
+            bool expected = false;
+            target.Rotate(RtDirection.CtrClockwise);
+            for (int i = 0; i < field.COLS; i++) {
+                target.Move(Direction.Right);
+            }
+            bool actual = target.Rotate(RtDirection.CtrClockwise);
             Assert.AreEqual(expected, actual);
         }
 

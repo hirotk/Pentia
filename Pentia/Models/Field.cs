@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Pentia.Controllers;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using Pentia.Controllers;
+using Pentia.Utilities;
 
 namespace Pentia.Models {
     public class Field  : IUpdatable {

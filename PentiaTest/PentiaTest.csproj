@@ -68,6 +68,7 @@
     <Compile Include="ModelsTest\FieldTest.cs" />
     <Compile Include="ModelsTest\PieceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilitiesTest\NPointTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
