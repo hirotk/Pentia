@@ -67,7 +67,8 @@ namespace Pentia.Models {
             foreach (NPoint pt in Shape) {
                 var tpt = pos + Mover.Move(pt, direction);
 
-                if (tpt.x < 0 || COLS <= tpt.x || tpt.y < 0 || ROWS <= tpt.y) {
+                if (tpt.x < 0 || COLS <= tpt.x || tpt.y < 0 || ROWS <= tpt.y 
+                    || field.Cells[tpt.x, tpt.y] != PcColor.None) {
                     result = false;
                 }
             }
@@ -82,7 +83,7 @@ namespace Pentia.Models {
             if (canMove(direction)) {
 
                 // Just output status
-                switch (direction) {
+/*                switch (direction) {
                     case Direction.Left:
                         this.Status = "Move the piece to the left\n";
                         break;
@@ -92,7 +93,7 @@ namespace Pentia.Models {
                     case Direction.Down:
                         this.Status = "Move the piece to the down\n";
                         break;
-                }
+                }*/
 
                 Mover.Move(ref pos, direction);
 
@@ -126,14 +127,14 @@ namespace Pentia.Models {
             if (canRotate(direction)) {
 
                 // Just output status
-                switch (direction) {
+/*                switch (direction) {
                     case RtDirection.Clockwise:
                         this.Status = "Rotate the piece to the clockwise\n";
                         break;
                     case RtDirection.CtrClockwise:
                         this.Status = "Rotate the piece to the counter clockwise\n";
                         break;
-                }
+                }*/
 
                 Rotator.Rotate(Shape, direction);
 

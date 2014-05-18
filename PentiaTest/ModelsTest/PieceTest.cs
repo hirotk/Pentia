@@ -20,6 +20,7 @@ namespace PentiaTest.ModelsTest {
 
         [TestInitialize]
         public void BeginTestMethod() {
+            field.Reset();
             target = new Piece(field, field.COLS / 2, 2, PcColor.Blue, PcType.J);
         }
 

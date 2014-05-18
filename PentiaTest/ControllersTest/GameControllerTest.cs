@@ -45,9 +45,9 @@ namespace PentiaTest.ControllersTest {
             sb.Append("Reset the board\n");
             sb.Append("Reset the field\n");
             sb.Append("Start the game\n");
-            sb.Append("Update the game\n");
-            sb.Append("Update the board\n");
-            sb.Append("Update the field\n");
+//            sb.Append("Update the game\n");
+//            sb.Append("Update the board\n");
+//            sb.Append("Update the field\n");
             sb.Append("Stop the game\n");
             sb.Append("Terminate the game\n");            
             string expected = sb.ToString();
@@ -81,10 +81,10 @@ namespace PentiaTest.ControllersTest {
             sb.Append("Reset the board\n");
             sb.Append("Reset the field\n"); 
             
-            sb.Append("Update the game\n");
-            sb.Append("Move the piece to the left\n");
-            sb.Append("Update the board\n");
-            sb.Append("Update the field\n");
+//            sb.Append("Update the game\n");
+//            sb.Append("Move the piece to the left\n");
+//            sb.Append("Update the board\n");
+//            sb.Append("Update the field\n");
 
             sb.Append("Pause/Start\n");
             sb.Append("Start the game\n");
@@ -127,9 +127,9 @@ namespace PentiaTest.ControllersTest {
             sb.Append("Reset the board\n");
             sb.Append("Reset the field\n");
             sb.Append("Start the game\n");
-            sb.Append("Update the game\n");
-            sb.Append("Update the board\n");
-            sb.Append("Update the field\n");
+//            sb.Append("Update the game\n");
+//            sb.Append("Update the board\n");
+//            sb.Append("Update the field\n");
             string expected = sb.ToString();
             target.Initialize(page);
             target.Start();

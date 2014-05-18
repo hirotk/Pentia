@@ -30,9 +30,10 @@ namespace PentiaTest.ModelsTest {
 
         [TestMethod]
         public void ResetTest() {
-            string expected = "Reset the field\n";
+            var expected = PcColor.None;
+            target.Cells[0, 0] = PcColor.Red;
             target.Reset();
-            string actual = target.Status;
+            var actual = target.Cells[0,0];
             Assert.AreEqual(expected, actual);
         }
 

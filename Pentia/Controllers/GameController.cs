@@ -120,8 +120,11 @@ namespace Pentia.Controllers {
         }
 
         public void Update() {
-            this.Status += "Update the game\n";
+//            this.Status += "Update the game\n";
             board.Update();
+            if (board.Status == "Game over") {
+                this.Terminate();
+            }
             this.Status += board.Status;
             board.Status = "";
         }

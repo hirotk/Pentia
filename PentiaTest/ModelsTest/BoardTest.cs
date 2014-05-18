@@ -23,8 +23,8 @@ namespace PentiaTest.ModelsTest {
 
         [TestMethod]
         public void UpdateTest() {
-            string expected = "Update the board\n";
-            expected += "Update the field\n";
+            string expected = null;//"Update the board\n";
+//            expected += "Update the field\n";
             target.Update();
             string actual = target.Status;
             Assert.AreEqual(expected, actual);

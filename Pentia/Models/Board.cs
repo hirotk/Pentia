@@ -12,17 +12,33 @@ namespace Pentia.Models {
 
         private Field field;
         private Piece piece;
+        private Random rand;
 
         public Board(Field field) {
             this.field = field;
-            this.piece = new Piece(field, field.COLS / 2, 1, PcColor.Blue, PcType.J);
+#if DEBUG
+            this.rand = new Random(0);
+#else
+            this.rand = new Random();
+#endif
+            this.piece = getNewPiece() ;
+        }
+
+        private Piece getNewPiece() {
+            var type = rand.Next((int)PcType.Leng);
+            return new Piece(field, field.COLS / 2, 2, (PcColor)(type + 1), (PcType)type);            
         }
 
         public void Update() {
-            this.Status += "Update the board\n";
-//            this.field.Update();
-            piece.Move(Direction.Down);
-            this.Status += field.Status;
+//            this.Status += "Update the board\n";
+            if (piece.Move(Direction.Down)) { return; }
+
+            if (piece.Y <= 2) {
+                this.Status += "Game over";
+                return; 
+            }
+
+            this.piece = getNewPiece();
         }
 
         public void Reset() {

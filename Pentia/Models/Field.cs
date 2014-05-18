@@ -15,7 +15,7 @@ namespace Pentia.Models {
 
         public int COLS { get; private set; }
         public int ROWS { get; private set; }
-        private PcColor[,] cells;
+        public PcColor[,] Cells { get; private set; }
         private Canvas canvas;
         private Renderer renderer;
 
@@ -25,27 +25,32 @@ namespace Pentia.Models {
             this.ROWS = rows;
             this.renderer = new Renderer(this);
 
-            cells = new PcColor[COLS, ROWS];
+            Cells = new PcColor[COLS, ROWS];
         }
 
         public void Update() {
             this.Status = "Update the field\n";
-            renderer.Draw(cells);
+            renderer.Draw(Cells);
         }
 
         public void Reset() {
-            this.Status = "Reset the field\n";        
+            this.Status = "Reset the field\n";
+            for (int j = 0; j < Cells.GetLength(1); j++) {
+                for (int i = 0; i < Cells.GetLength(0); i++) {
+                    Cells[i, j] = PcColor.None;
+                }
+            }
         }
 
         public void PutPiece(Piece piece) {
             foreach (NPoint pt in piece.Shape) {
-                cells[piece.X + pt.x, piece.Y + pt.y] = piece.Color;
+                Cells[piece.X + pt.x, piece.Y + pt.y] = piece.Color;
             }
         }
 
         public void RemovePiece(Piece piece) {
             foreach (NPoint pt in piece.Shape) {
-                cells[piece.X + pt.x, piece.Y + pt.y] = PcColor.None;
+                Cells[piece.X + pt.x, piece.Y + pt.y] = PcColor.None;
             }
         }
 
