@@ -67,7 +67,7 @@ namespace Pentia.Controllers {
             page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
 
             // Generate Model Objects
-            var field = new Field(this.page.cvField, 10, 20);
+            var field = new Field(this.page.cvField, 10, 20, Piece.PC_SIZE / 2);
             board = new Board(field);
 
             this.Reset();

@@ -35,6 +35,7 @@ namespace Pentia.Models {
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-2,0), new NPoint(-2,-1)}, // J
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(2,0)} // T
         };
+        public const int PC_SIZE = 5;
 
         public string Status { get; set; }
 
@@ -45,11 +46,10 @@ namespace Pentia.Models {
         public int Y { get { return pos.y; } }
 
         public PcColor Color { get; private set; }
-        public NPoint[] Shape { get; private set; }
+        public NPoint[] Shape { get; private set; }        
 
         public Piece(Field field, int x, int y, PcColor color, PcType type) {
             this.field = field;
-            
             this.pos = new NPoint(x, y);
             this.Color = color;
 
@@ -67,8 +67,8 @@ namespace Pentia.Models {
             foreach (NPoint pt in Shape) {
                 var tpt = pos + Mover.Move(pt, direction);
 
-                if (tpt.x < 0 || COLS <= tpt.x || tpt.y < 0 || ROWS <= tpt.y 
-                    || field.Cells[tpt.x, tpt.y] != PcColor.None) {
+                if (tpt.x < 0 || COLS <= tpt.x /*|| tpt.y < 0*/ || ROWS <= tpt.y 
+                    || field[tpt.x, tpt.y] != PcColor.None) {
                     result = false;
                 }
             }
@@ -112,7 +112,7 @@ namespace Pentia.Models {
             foreach (NPoint pt in Shape) {
                 var tpt = this.pos + Rotator.Rotate(pt, direction);
 
-                if (tpt.x < 0 || COLS <= tpt.x || tpt.y < 0 || ROWS <= tpt.y) {
+                if (tpt.x < 0 || COLS <= tpt.x /*|| tpt.y < 0*/ || ROWS <= tpt.y) {
                     result = false;
                 }
             }

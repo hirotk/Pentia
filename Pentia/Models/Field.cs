@@ -15,42 +15,49 @@ namespace Pentia.Models {
 
         public int COLS { get; private set; }
         public int ROWS { get; private set; }
-        public PcColor[,] Cells { get; private set; }
+        private PcColor[,] cells;
+        public PcColor this[int i, int j] {  
+            get { return cells[i, yOffset + j]; } 
+            set { cells[i, yOffset + j] = value; } 
+        }
         private Canvas canvas;
         private Renderer renderer;
 
-        public Field(Canvas canvas, int cols, int rows) {
+        private int yOffset;
+
+        public Field(Canvas canvas, int cols, int rows, int yOffset) {
             this.canvas = canvas;
             this.COLS = cols;
             this.ROWS = rows;
+            this.yOffset = yOffset;
             this.renderer = new Renderer(this);
 
-            Cells = new PcColor[COLS, ROWS];
+            cells = new PcColor[COLS, ROWS + yOffset];
         }
 
         public void Update() {
             this.Status = "Update the field\n";
-            renderer.Draw(Cells);
+            renderer.Draw(cells);
         }
 
         public void Reset() {
             this.Status = "Reset the field\n";
-            for (int j = 0; j < Cells.GetLength(1); j++) {
-                for (int i = 0; i < Cells.GetLength(0); i++) {
-                    Cells[i, j] = PcColor.None;
+            for (int j = 0; j < cells.GetLength(1); j++) {
+                for (int i = 0; i < cells.GetLength(0); i++) {
+                    cells[i, j] = PcColor.None;
                 }
             }
         }
 
         public void PutPiece(Piece piece) {
             foreach (NPoint pt in piece.Shape) {
-                Cells[piece.X + pt.x, piece.Y + pt.y] = piece.Color;
+                this[piece.X + pt.x, piece.Y + pt.y] = piece.Color;
             }
         }
 
         public void RemovePiece(Piece piece) {
             foreach (NPoint pt in piece.Shape) {
-                Cells[piece.X + pt.x, piece.Y + pt.y] = PcColor.None;
+                this[piece.X + pt.x, piece.Y + pt.y] = PcColor.None;
             }
         }
 
@@ -59,14 +66,15 @@ namespace Pentia.Models {
                 { Brushes.MintCream, Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow};
 
             private Canvas canvas;
-            private int cols, rows;
+            private int cols, rows, yOffset;
             private Rectangle[,] rcCells;
             
             public Renderer(Field field) {
                 this.canvas = field.canvas;
                 this.cols = field.COLS;
                 this.rows = field.ROWS;
-                
+                this.yOffset = field.yOffset;
+
                 this.rcCells = new Rectangle[cols, rows];
 
                 int cellWidth = (int)(canvas.Width / cols);
@@ -96,7 +104,7 @@ namespace Pentia.Models {
 
                 for (int j = 0; j < rows; j++) {
                     for (int i = 0; i < cols; i++) {
-                        int c = (int)cells[i,j];
+                        int c = (int)cells[i, yOffset + j];
                         rcCells[i, j].Fill = PC_BRS[c];
                     }
                 }

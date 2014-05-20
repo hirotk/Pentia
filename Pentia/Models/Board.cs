@@ -26,14 +26,14 @@ namespace Pentia.Models {
 
         private Piece getNewPiece() {
             var type = rand.Next((int)PcType.Leng);
-            return new Piece(field, field.COLS / 2, 2, (PcColor)(type + 1), (PcType)type);            
+            return new Piece(field, field.COLS / 2, 0, (PcColor)(type + 1), (PcType)type);            
         }
 
         public void Update() {
 //            this.Status += "Update the board\n";
             if (piece.Move(Direction.Down)) { return; }
 
-            if (piece.Y <= 2) {
+            if (piece.Y <= 0) {
                 this.Status += "Game over";
                 return; 
             }

@@ -15,13 +15,13 @@ namespace PentiaTest.ModelsTest {
             var cvs = new Canvas();
             cvs.Width = 200;
             cvs.Height = 400;
-            field = new Field(cvs, 10, 20);
+            field = new Field(cvs, 10, 20, Piece.PC_SIZE/2);
         }
 
         [TestInitialize]
         public void BeginTestMethod() {
             field.Reset();
-            target = new Piece(field, field.COLS / 2, 2, PcColor.Blue, PcType.J);
+            target = new Piece(field, field.COLS / 2, 0, PcColor.Blue, PcType.J);
         }
 
         [TestMethod]

@@ -17,7 +17,7 @@ namespace PentiaTest.ModelsTest {
             var cvs = new Canvas();
             cvs.Width = 200;
             cvs.Height = 400;
-            target = new Field(cvs, 10, 20);
+            target = new Field(cvs, 10, 20, Piece.PC_SIZE / 2);
         }
 
         [TestMethod]
@@ -31,9 +31,9 @@ namespace PentiaTest.ModelsTest {
         [TestMethod]
         public void ResetTest() {
             var expected = PcColor.None;
-            target.Cells[0, 0] = PcColor.Red;
+            target[0, 0] = PcColor.Red;
             target.Reset();
-            var actual = target.Cells[0,0];
+            var actual = target[0,0];
             Assert.AreEqual(expected, actual);
         }
 

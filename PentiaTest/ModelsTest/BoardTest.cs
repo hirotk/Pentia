@@ -17,7 +17,7 @@ namespace PentiaTest.ModelsTest {
             var cvs = new Canvas();
             cvs.Width = 200;
             cvs.Height = 400;
-            var field = new Field(cvs, 10, 20);
+            var field = new Field(cvs, 10, 20, Piece.PC_SIZE / 2);
             target = new Board(field);
         }
 
