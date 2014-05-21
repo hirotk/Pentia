@@ -61,19 +61,17 @@ namespace Pentia.Models {
         }
 
         private bool canMove(Direction direction) {
-            bool result = true;
             int COLS = field.COLS, ROWS = field.ROWS;
 
             foreach (NPoint pt in Shape) {
                 var tpt = pos + Mover.Move(pt, direction);
 
-                if (tpt.x < 0 || COLS <= tpt.x /*|| tpt.y < 0*/ || ROWS <= tpt.y 
-                    || field[tpt.x, tpt.y] != PcColor.None) {
-                    result = false;
+                if (field[tpt.x, tpt.y] != PcColor.None) {
+                    return  false;
                 }
             }
 
-            return result;
+            return true;
         }
 
         public bool Move(Direction direction) {
@@ -106,18 +104,17 @@ namespace Pentia.Models {
         }
 
         private bool canRotate(RtDirection direction) {
-            bool result = true;
             int COLS = field.COLS, ROWS = field.ROWS;
 
             foreach (NPoint pt in Shape) {
                 var tpt = this.pos + Rotator.Rotate(pt, direction);
 
-                if (tpt.x < 0 || COLS <= tpt.x /*|| tpt.y < 0*/ || ROWS <= tpt.y) {
-                    result = false;
+                if (field[tpt.x, tpt.y] != PcColor.None) {
+                   return false;
                 }
             }
 
-            return result;
+            return true;
         }
 
         public bool Rotate(RtDirection direction) {

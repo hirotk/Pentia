@@ -16,23 +16,57 @@ namespace Pentia.Models {
         public int COLS { get; private set; }
         public int ROWS { get; private set; }
         private PcColor[,] cells;
-        public PcColor this[int i, int j] {  
-            get { return cells[i, yOffset + j]; } 
-            set { cells[i, yOffset + j] = value; } 
+        public PcColor this[int i, int j] {
+//         get { return (0 <= i && i < COLS && 0 <= j && j < ROWS) ?
+//                    cells[wallThickness + i, yOffset + j] : PcColor.Wall; } 
+            get { return cells[wallThickness + i, yOffset + j]; }
+            set { cells[wallThickness + i, yOffset + j] = value; } 
         }
         private Canvas canvas;
         private Renderer renderer;
 
         private int yOffset;
+        private int wallThickness;
 
-        public Field(Canvas canvas, int cols, int rows, int yOffset) {
+        public int DelibleRowNum { get; private set; }
+
+        private bool[] isDelibleRow;
+        public bool GetIsDelibleRow(int i) {
+            return isDelibleRow[yOffset + i];
+        }
+        private void setIsDelibleRow(int i, bool value) {
+            isDelibleRow[yOffset + i] = value;
+        }
+
+        public Field(Canvas canvas, int cols, int rows, int yOffset = 0, int wallThickness = 0, int dispWallThickness = 0) {
             this.canvas = canvas;
             this.COLS = cols;
             this.ROWS = rows;
             this.yOffset = yOffset;
-            this.renderer = new Renderer(this);
+            this.wallThickness = wallThickness;
 
-            cells = new PcColor[COLS, ROWS + yOffset];
+            cells = new PcColor[COLS + wallThickness * 2, yOffset + ROWS + wallThickness];
+            if (0 < wallThickness) { setWalls(); }
+
+            this.renderer = new Renderer(this, dispWallThickness);
+            isDelibleRow = new bool[yOffset + ROWS];
+        }
+
+        private void setWalls() {
+            // Set the side walls
+            for (int j = 0; j < yOffset + ROWS + wallThickness; j++) {
+                for (int i = 0; i < wallThickness; i++) {
+                    cells[i, j] = PcColor.Wall; // Set the left wall  
+                    cells[wallThickness + COLS + i, j] = PcColor.Wall; // Set the right wall  
+                }
+            }
+
+            // Set the bottom
+            for (int j = yOffset + ROWS; j < yOffset + ROWS + wallThickness; j++) {
+                for (int i = 0; i < COLS + wallThickness * 2; i++) {
+                    cells[i, j] = PcColor.Wall;
+                }
+            }
         }
 
         public void Update() {
@@ -42,10 +76,14 @@ namespace Pentia.Models {
 
         public void Reset() {
             this.Status = "Reset the field\n";
-            for (int j = 0; j < cells.GetLength(1); j++) {
-                for (int i = 0; i < cells.GetLength(0); i++) {
-                    cells[i, j] = PcColor.None;
+            for (int j = -yOffset; j < ROWS; j++) {
+                for (int i = 0; i < COLS; i++) {
+                    this[i, j] = PcColor.None;
                 }
+            }
+
+            for (int j = 0; j < ROWS; j++) {
+                setIsDelibleRow(j, false);
             }
         }
 
@@ -63,49 +101,57 @@ namespace Pentia.Models {
 
         private class Renderer {
             private static readonly Brush[] PC_BRS =
-                { Brushes.MintCream, Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow};
+                { Brushes.MintCream, Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow, 
+                   Brushes.DarkGray};
 
-            private Canvas canvas;
-            private int cols, rows, yOffset;
+            private Field field;
+            private int cols, rows, yOffset, wallThickness;
             private Rectangle[,] rcCells;
+            private Rectangle this[int i, int j] {
+                get { return rcCells[wallThickness + i, j]; }
+                set { rcCells[wallThickness + i, j] = value; }
+            }
+            private int cellWidth, cellHeight;
             
-            public Renderer(Field field) {
-                this.canvas = field.canvas;
+            public Renderer(Field field, int dispWallThickness = 0) {
+                this.field = field;
                 this.cols = field.COLS;
                 this.rows = field.ROWS;
                 this.yOffset = field.yOffset;
+                this.wallThickness = (0 < field.wallThickness) ? dispWallThickness : 0;
+                this.rcCells = new Rectangle[cols + wallThickness * 2, rows + wallThickness];
 
-                this.rcCells = new Rectangle[cols, rows];
+                this.cellWidth = (int)(field.canvas.Width / cols);
+                this.cellHeight = (int)(field.canvas.Height / rows);
 
-                int cellWidth = (int)(canvas.Width / cols);
-                int cellHeight = (int)(canvas.Height / rows);
-
-                for (int j = 0; j < rows; j++) {
-                    for (int i = 0; i < cols; i++) {
+                for (int j = 0; j < rows + wallThickness; j++) {
+                    for (int i = 0; i < cols + wallThickness * 2; i++) {
                         rcCells[i, j] = new Rectangle();
                         rcCells[i, j].Width = cellWidth;
                         rcCells[i, j].Height = cellHeight;
-                        rcCells[i, j].Fill = Brushes.MintCream;
+                        rcCells[i, j].Fill = PC_BRS[(int)PcColor.None];
                         Canvas.SetLeft(rcCells[i, j], i  * cellWidth);
                         Canvas.SetTop(rcCells[i, j], j  * cellHeight);
-                        canvas.Children.Add(rcCells[i, j]);
+                        field.canvas.Children.Add(rcCells[i, j]);
+                    }
+                }
+
+                if (0 < wallThickness) { setWalls(); }
+            }
+
+            private void setWalls() {
+                for (int j = 0; j < rows + wallThickness; j++) {
+                    for (int i = 0; i < cols + wallThickness * 2; i++) {
+                        rcCells[i, j].Fill = PC_BRS[(int)field.cells[field.wallThickness - wallThickness + i, yOffset + j]];
+                        rcCells[i, j].Stroke = Brushes.Gray;
                     }
                 }
             }
 
             public void Draw(PcColor[,] cells) { 
-                // Todo: Update rcCells based on the current cells
-
-                // Test draw
-/*                rcCells[0, 0].Fill = Brushes.Red;
-                rcCells[cols - 1, 0].Fill = Brushes.Green;
-                rcCells[0, rows - 1].Fill = Brushes.Blue;
-                rcCells[cols - 1, rows - 1].Fill = Brushes.Cyan;*/
-
                 for (int j = 0; j < rows; j++) {
                     for (int i = 0; i < cols; i++) {
-                        int c = (int)cells[i, yOffset + j];
-                        rcCells[i, j].Fill = PC_BRS[c];
+                        this[i, j].Fill = PC_BRS[(int)field[i, j]];
                     }
                 }
             }
