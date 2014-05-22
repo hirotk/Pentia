@@ -99,7 +99,7 @@ namespace Pentia.Models {
             }
 
             field.PutPiece(this);
-            field.Update();
+            field.Draw();
             return moved;
         }
 
@@ -139,7 +139,7 @@ namespace Pentia.Models {
             }
 
             field.PutPiece(this);
-            field.Update(); 
+            field.Draw(); 
             return rotated;
         }
     }

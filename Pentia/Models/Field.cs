@@ -70,8 +70,13 @@ namespace Pentia.Models {
         }
 
         public void Update() {
+            int tmp;
+            Update(out tmp);
+        }
+
+        public void Update(out int delibleRowNum) {
             this.Status = "Update the field\n";
-            renderer.Draw(cells);
+            delibleRowNum = DeleteRows();
         }
 
         public void Reset() {
@@ -97,6 +102,50 @@ namespace Pentia.Models {
             foreach (NPoint pt in piece.Shape) {
                 this[piece.X + pt.x, piece.Y + pt.y] = PcColor.None;
             }
+        }
+
+        public void Draw() {
+            renderer.Draw(cells);        
+        }
+
+        private void checkRows() {
+            this.DelibleRowNum = 0;
+
+            for (int j = ROWS - 1; j >= 0; j--) {
+                setIsDelibleRow(j, true);
+                for (int i = 0; i < COLS; i++) {
+                    if (this[i, j] == PcColor.None) {
+                        setIsDelibleRow(j, false);
+                        break;
+                    }
+                }
+                if (GetIsDelibleRow(j)) { DelibleRowNum++; }
+            }
+        }
+
+        private void deleteRow(int row) {
+            for (int j = row; j >= 0; j--) {
+                for (int i = 0; i < COLS; i++) {
+                    this[i, j] = this[i, j - 1];
+                }
+                setIsDelibleRow(j, GetIsDelibleRow(j - 1));
+            }
+            DelibleRowNum--;
+        }
+
+        public int DeleteRows() {
+            int deletedRowNum = 0;
+            checkRows();
+
+            while (0 < DelibleRowNum) {
+                for (int j = ROWS - 1; j >= 0; j--) {
+                    if (GetIsDelibleRow(j)) {
+                        deleteRow(j);
+                        deletedRowNum++;
+                    }
+                }
+            }
+            return deletedRowNum;
         }
 
         private class Renderer {

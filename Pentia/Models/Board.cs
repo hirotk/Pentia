@@ -33,6 +33,9 @@ namespace Pentia.Models {
 //            this.Status += "Update the board\n";
             if (piece.Move(Direction.Down)) { return; }
 
+            int deletedRowNum;
+            field.Update(out deletedRowNum);
+
             if (piece.Y <= 0) {
                 this.Status += "Game over";
                 return; 
