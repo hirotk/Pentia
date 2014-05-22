@@ -14,6 +14,8 @@ namespace Pentia.Models {
         private Piece piece;
         private Random rand;
 
+        public int DeletedRowNum { get; private set; }
+
         public Board(Field field) {
             this.field = field;
 #if DEBUG
@@ -31,10 +33,14 @@ namespace Pentia.Models {
 
         public void Update() {
 //            this.Status += "Update the board\n";
-            if (piece.Move(Direction.Down)) { return; }
+            if (piece.Move(Direction.Down)) {
+                this.DeletedRowNum = 0;
+                return; 
+            }
 
             int deletedRowNum;
             field.Update(out deletedRowNum);
+            this.DeletedRowNum = deletedRowNum;
 
             if (piece.Y <= 0) {
                 this.Status += "Game over";

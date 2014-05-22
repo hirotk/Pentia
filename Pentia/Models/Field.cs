@@ -74,9 +74,9 @@ namespace Pentia.Models {
             Update(out tmp);
         }
 
-        public void Update(out int delibleRowNum) {
+        public void Update(out int deletedRowNum) {
             this.Status = "Update the field\n";
-            delibleRowNum = DeleteRows();
+            deletedRowNum = DeleteRows();
         }
 
         public void Reset() {

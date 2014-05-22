@@ -51,6 +51,30 @@ namespace Pentia.Controllers {
         private DispatcherTimer timer;
 
         private Board board;
+        private Recorder recorder;
+
+        private Binding initBinding(Binding binding, object souce, string property,
+            string format = null, BindingMode bindingMode = BindingMode.TwoWay) {
+            binding.Source = souce;
+            binding.Path = new PropertyPath(property);
+            if (format != null) { binding.StringFormat = format; }
+            binding.Mode = bindingMode;
+            return binding;
+        }
+
+        private void setBinding() {   
+            var binding = initBinding(new Binding(), this, "Status", bindingMode:BindingMode.OneWay);
+            page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
+
+            binding = initBinding(new Binding(), recorder, "Score", "{0, 8}", BindingMode.OneWay);
+            page.tbScore.SetBinding(TextBlock.TextProperty, binding);
+
+            binding = initBinding(new Binding(), recorder, "Level", "{0, 8}", BindingMode.OneWay);
+            page.tbLevel.SetBinding(TextBlock.TextProperty, binding);
+
+            binding = initBinding(new Binding(), recorder, "Lines", "{0, 8}", BindingMode.OneWay);
+            page.tbLines.SetBinding(TextBlock.TextProperty, binding);
+        }
 
         public void Initialize(GamePage page) {
             this.page = page;
@@ -60,16 +84,13 @@ namespace Pentia.Controllers {
 
             this.page.MainWnd.KeyDown += this.OnKeyDown;
 
-            var binding = new Binding();
-            binding.Source = this;
-            binding.Path = new PropertyPath("Status");
-
-            page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
-
             // Generate Model Objects
             var field = new Field(this.page.cvField, cols:10, rows:20,
                 yOffset: Piece.PC_SIZE / 2, wallThickness: Piece.PC_SIZE / 2, dispWallThickness: 1);
             board = new Board(field);
+            recorder = new Recorder();
+
+            setBinding();
 
             this.Reset();
         }
@@ -123,6 +144,12 @@ namespace Pentia.Controllers {
         public void Update() {
 //            this.Status += "Update the game\n";
             board.Update();
+
+            if (0 < board.DeletedRowNum) {
+                recorder.Update(board.DeletedRowNum);
+                this.timer.Interval = recorder.TickInterval;
+            }
+
             if (board.Status == "Game over") {
                 this.Terminate();
             }
