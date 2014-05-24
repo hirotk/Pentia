@@ -10,10 +10,10 @@
     <DockPanel Width="500" Height="600" Margin="0,-2,0,2">
         <StackPanel Name="spRecorder" DockPanel.Dock="Left" Width="150" Background="#80c08080">
             <TextBlock>Next</TextBlock>
-            <StackPanel Name="spNextBoard">
+            <Border Width="102" Height="102" BorderThickness="1" BorderBrush="Red">
                 <Canvas Name="cvNextField" Width="100" Height="100" RenderOptions.EdgeMode="Aliased" Background="#f0c0c0f0">                    
                 </Canvas>
-            </StackPanel>
+            </Border>
             <TextBlock>Score</TextBlock>
             <TextBlock Name="tbScore">0</TextBlock>
             <TextBlock>Level</TextBlock>

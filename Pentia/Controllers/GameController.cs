@@ -87,7 +87,9 @@ namespace Pentia.Controllers {
             // Generate Model Objects
             var field = new Field(this.page.cvField, cols:10, rows:20,
                 yOffset: Piece.PC_SIZE / 2, wallThickness: Piece.PC_SIZE / 2, dispWallThickness: 1);
-            board = new Board(field);
+            var nextField = new Field(this.page.cvNextField, cols: Piece.PC_SIZE, rows: Piece.PC_SIZE);
+            board = new Board(field, nextField);
+
             recorder = new Recorder();
 
             setBinding();

@@ -179,7 +179,9 @@ namespace Pentia.Models {
                         rcCells[i, j].Width = cellWidth;
                         rcCells[i, j].Height = cellHeight;
                         rcCells[i, j].Fill = PC_BRS[(int)PcColor.None];
-                        Canvas.SetLeft(rcCells[i, j], i  * cellWidth);
+                        rcCells[i, j].Stroke = Brushes.Gray;
+                        rcCells[i, j].StrokeThickness = 0.4;
+                        Canvas.SetLeft(rcCells[i, j], i * cellWidth);
                         Canvas.SetTop(rcCells[i, j], j  * cellHeight);
                         field.canvas.Children.Add(rcCells[i, j]);
                     }
@@ -192,7 +194,6 @@ namespace Pentia.Models {
                 for (int j = 0; j < rows + wallThickness; j++) {
                     for (int i = 0; i < cols + wallThickness * 2; i++) {
                         rcCells[i, j].Fill = PC_BRS[(int)field.cells[field.wallThickness - wallThickness + i, yOffset + j]];
-                        rcCells[i, j].Stroke = Brushes.Gray;
                     }
                 }
             }

@@ -25,7 +25,8 @@ namespace Pentia.Models {
         J, 
         T, 
 
-        Leng
+        Leng,
+        Random
     }
 
     public class Piece : IMovable, IRotatable {
@@ -39,34 +40,39 @@ namespace Pentia.Models {
 
         public string Status { get; set; }
 
-        private Field field;
+//        private Field Field;
+        public Field Field { get; set; }
 
         private NPoint pos;
-        public int X { get { return pos.x; } }
-        public int Y { get { return pos.y; } }
+        public int X { 
+            get { return pos.x; }
+            set { pos.x = value; }
+        }
+        public int Y { 
+            get { return pos.y; }
+            set { pos.y = value; }
+        }
 
         public PcColor Color { get; private set; }
-        public NPoint[] Shape { get; private set; }        
+        public NPoint[] Shape { get; private set; }
 
         public Piece(Field field, int x, int y, PcColor color, PcType type) {
-            this.field = field;
+            this.Field = field;
             this.pos = new NPoint(x, y);
             this.Color = color;
 
             var PcShp = PC_SHPS[(int)type];
             this.Shape = new NPoint[PcShp.Length];
             PcShp.CopyTo(this.Shape, 0); 
-
-            field.PutPiece(this);
         }
 
         private bool canMove(Direction direction) {
-            int COLS = field.COLS, ROWS = field.ROWS;
+            int COLS = Field.COLS, ROWS = Field.ROWS;
 
             foreach (NPoint pt in Shape) {
                 var tpt = pos + Mover.Move(pt, direction);
 
-                if (field[tpt.x, tpt.y] != PcColor.None) {
+                if (Field[tpt.x, tpt.y] != PcColor.None) {
                     return  false;
                 }
             }
@@ -75,7 +81,7 @@ namespace Pentia.Models {
         }
 
         public bool Move(Direction direction) {
-            field.RemovePiece(this);
+            Field.RemovePiece(this);
             bool moved = false;
 
             if (canMove(direction)) {
@@ -98,18 +104,18 @@ namespace Pentia.Models {
                 moved = true;
             }
 
-            field.PutPiece(this);
-            field.Draw();
+            Field.PutPiece(this);
+            Field.Draw();
             return moved;
         }
 
         private bool canRotate(RtDirection direction) {
-            int COLS = field.COLS, ROWS = field.ROWS;
+            int COLS = Field.COLS, ROWS = Field.ROWS;
 
             foreach (NPoint pt in Shape) {
                 var tpt = this.pos + Rotator.Rotate(pt, direction);
 
-                if (field[tpt.x, tpt.y] != PcColor.None) {
+                if (Field[tpt.x, tpt.y] != PcColor.None) {
                    return false;
                 }
             }
@@ -118,7 +124,7 @@ namespace Pentia.Models {
         }
 
         public bool Rotate(RtDirection direction) {
-            field.RemovePiece(this);
+            Field.RemovePiece(this);
             bool rotated = false;
 
             if (canRotate(direction)) {
@@ -138,8 +144,8 @@ namespace Pentia.Models {
                 rotated = true;
             }
 
-            field.PutPiece(this);
-            field.Draw(); 
+            Field.PutPiece(this);
+            Field.Draw(); 
             return rotated;
         }
     }
