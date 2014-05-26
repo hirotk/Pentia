@@ -65,6 +65,9 @@
     <Compile Include="Views\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HighScorePage.xaml.cs">
+      <DependentUpon>HighScorePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TitlePage.xaml.cs">
       <DependentUpon>TitlePage.xaml</DependentUpon>
     </Compile>
@@ -81,6 +84,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HighScorePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

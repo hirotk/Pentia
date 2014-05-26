@@ -10,7 +10,7 @@
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="80,50,0,0" TextWrapping="Wrap" Text="Pentia" VerticalAlignment="Top" FontSize="48"/>
         <Button Content="Play" HorizontalAlignment="Left" Margin="110,150,0,0" VerticalAlignment="Top" Width="75" Click="PlayButton_Click"/>
-        <Button Content="Quit" HorizontalAlignment="Left" Margin="110,180,0,0" VerticalAlignment="Top" Width="75" Click="QuitButton_Click" />
-
+        <Button Content="High Scores" HorizontalAlignment="Left" Margin="110,180,0,0" VerticalAlignment="Top" Width="75" Click="HiScoreButton_Click"/>
+        <Button Content="Quit" HorizontalAlignment="Left" Margin="110,210,0,0" VerticalAlignment="Top" Width="75" Click="QuitButton_Click" />
     </Grid>
 </Page>
