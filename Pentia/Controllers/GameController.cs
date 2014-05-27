@@ -52,6 +52,7 @@ namespace Pentia.Controllers {
 
         private Board board;
         private Recorder recorder;
+        public Recorder Recorder { get {return recorder;} }
 
         private Binding initBinding(Binding binding, object souce, string property,
             string format = null, BindingMode bindingMode = BindingMode.TwoWay) {
@@ -125,6 +126,8 @@ namespace Pentia.Controllers {
         }
 
         public void OnKeyDown(object sender, KeyEventArgs e) {
+            if (isNameInputting) { return; }
+            
             switch (e.Key) {
 //                case Key.I: this.Status += "Up\n"; break;
                 case Key.J: board.MovePiece(Direction.Left); break;
@@ -154,7 +157,9 @@ namespace Pentia.Controllers {
 
             if (board.Status == "Game over") {
                 this.Terminate();
+                if (recorder.IsNewRecord) { showNameInput(); }
             }
+
             this.Status += board.Status;
             board.Status = "";
         }
@@ -163,8 +168,22 @@ namespace Pentia.Controllers {
             this.Stop();
             this.Status = "Reset the game\n";            
             board.Reset();
+            hideNameInput();
+
             this.Status += board.Status;
             board.Status = "";
+        }
+
+        private void showNameInput() {
+            page.spNameInput.Visibility = Visibility.Visible;
+        }
+
+        private void hideNameInput() {
+            page.spNameInput.Visibility = Visibility.Hidden;
+        }
+
+        private bool isNameInputting {
+            get { return page.spNameInput.Visibility == Visibility.Visible; }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using Pentia.Controllers;
 using System.ComponentModel;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Pentia.Models {
     public class Recorder : IUpdatable, INotifyPropertyChanged {
@@ -44,6 +46,11 @@ namespace Pentia.Models {
 
         public Recorder() {
             Reset();
+            Records = new Record[RECS_LENG];
+            for (int i = 0; i < Records.Length; i++) {
+                Records[i] = new Record(score: 0, name: "Player" + i);
+            }
+            loadRecord();
         }
 
         public void Update() {
@@ -84,6 +91,53 @@ namespace Pentia.Models {
             Score = 0;
             Level = 1;
             Lines = 0;
+        }
+
+        public Record[] Records { get; private set; }
+        public static readonly int RECS_LENG = 10;
+        private string SCORE_DAT = "HighScores.dat";
+
+        private void loadRecord() {
+            if (File.Exists(SCORE_DAT) == false) { return; }
+
+            using (var stream = File.Open(SCORE_DAT, FileMode.OpenOrCreate)) {
+                var serializer = new BinaryFormatter();
+                Records = (Record[])serializer.Deserialize(stream);
+            }
+        }
+
+        public void SaveRecord(string name) {
+            for (int i = 0; i < Records.Length; i++) {
+                if (Records[i].Score < Score) {
+                    for (int j = Records.Length - 2; j >= i; j--) {
+                        Records[j + 1].Score = Records[j].Score;
+                        Records[j + 1].Name = Records[j].Name;
+                    }
+                    Records[i].Score = Score;
+                    Records[i].Name = name;
+                    break;
+                }
+            }
+
+            using (var stream = File.OpenWrite(SCORE_DAT)) {
+                var serializer = new BinaryFormatter();
+                serializer.Serialize(stream, Records);
+            }
+        }
+
+        public bool IsNewRecord {
+            get { return Records[RECS_LENG - 1].Score < Score; }
+        }
+    }
+
+    [Serializable]
+    public class Record {
+        public int Score { get; set; }
+        public string Name { get; set; }
+
+        public Record(int score, string name) {
+            this.Score = score;
+            this.Name = name;
         }
     }
 }

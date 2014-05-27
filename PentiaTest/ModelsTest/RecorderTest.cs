@@ -32,5 +32,14 @@ namespace PentiaTest.ModelsTest {
             int actual = target.Score;
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void SaveRecordTest() {
+            string expected = "Bob";
+            target.Update(5);
+            target.SaveRecord("Bob");
+            string actual = target.Records[0].Name;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

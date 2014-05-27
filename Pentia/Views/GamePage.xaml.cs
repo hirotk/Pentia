@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Pentia.Controllers;
+using System.Text.RegularExpressions;
 
 namespace Pentia.Views {
     /// <summary>
@@ -26,6 +28,19 @@ namespace Pentia.Views {
         private void Page_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
             // Todo: Terminate Game
             GameCtrl.Terminate();
+        }
+
+        private void NameInputButton_Click(object sender, System.Windows.RoutedEventArgs e) {
+            var name = tbxPlayerName.Text;
+            if (Regex.IsMatch(name, @"^[a-zA-Z\s\d_-]{1,12}$") == false) {
+                tbxPlayerName.Text = "";
+                tbMsg.Text = "Use letters or numbers.";
+                return;
+            }
+
+            GameCtrl.Recorder.SaveRecord(name);
+            tbxPlayerName.Text = "";
+            spNameInput.Visibility = Visibility.Hidden;
         }
     }
 }
