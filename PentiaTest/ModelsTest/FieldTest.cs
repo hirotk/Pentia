@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Pentia.Models;
 using System.Windows.Controls;
 using System.Reflection;
+using Pentia.Models;
+using Pentia.Utilities;
 
 namespace PentiaTest.ModelsTest {
     [TestClass]
@@ -17,6 +18,14 @@ namespace PentiaTest.ModelsTest {
 
         [ClassInitialize]
         public static void InitializeTarget(TestContext testContext) {
+            if (ImageLoader.IsRegistered("Cells") == false) {
+                ImageLoader.AddImage("Cells", new Uri(@"..\..\..\Pentia\Resources\Cells.png", UriKind.Relative));
+            }        
+        }
+
+        [ClassCleanup]
+        public static void FinalizeTarget() {
+            ImageLoader.RemoveImage("Cells");
         }
 
         [TestInitialize]

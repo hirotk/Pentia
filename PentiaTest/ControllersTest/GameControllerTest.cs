@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Pentia.Controllers;
-using Pentia.Views;
-using Pentia;
 using System.Text;
-using System.Windows.Input;
-using Moq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
+using Moq;
+using Pentia;
+using Pentia.Views;
+using Pentia.Controllers;
+using Pentia.Utilities;
 
 namespace PentiaTest.ControllersTest {
     [TestClass]
@@ -21,8 +22,16 @@ namespace PentiaTest.ControllersTest {
             target = page.GameCtrl;            
         }
 
+        [ClassCleanup]
+        public static void FinalizeTarget() {
+            ImageLoader.RemoveImage("Cells");
+        }
+
         [TestInitialize]
         public void BeginTestMethod() {
+            if (ImageLoader.IsRegistered("Cells") == false) {
+                ImageLoader.AddImage("Cells", new Uri(@"..\..\..\Pentia\Resources\Cells.png", UriKind.Relative));
+            }
             target.Initialize(page);
         }
 

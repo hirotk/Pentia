@@ -63,6 +63,16 @@ namespace Pentia.Controllers {
             return binding;
         }
 
+        private void setResources() {
+            if (ImageLoader.IsRegistered("Cells") == false) {
+                ImageLoader.AddImage("Cells", new Uri(Properties.Resources.Cells, UriKind.Relative));
+            }
+        }
+        
+        private void releaseResources() {
+            ImageLoader.RemoveImage("Cells");
+        }
+
         private void setBinding() {   
             var binding = initBinding(new Binding(), this, "Status", bindingMode:BindingMode.OneWay);
             page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
@@ -79,6 +89,9 @@ namespace Pentia.Controllers {
 
         public void Initialize(GamePage page) {
             this.page = page;
+
+            setResources();
+
             this.timer = new DispatcherTimer();
             timer.Tick += this.OnTick;
             timer.Interval = new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 1, milliseconds: 0);
@@ -101,8 +114,10 @@ namespace Pentia.Controllers {
         public void Terminate() {
             //Todo: Release resources
             this.Stop();
-            this.Status += "Terminate the game\n";
+            releaseResources(); 
             this.page.MainWnd.KeyDown -= this.OnKeyDown;
+
+            this.Status += "Terminate the game\n";
         }
 
         public bool Start() {

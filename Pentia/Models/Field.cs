@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using Pentia.Controllers;
 using Pentia.Utilities;
+using System.Diagnostics;
 
 namespace Pentia.Models {
     public class Field  : IUpdatable {
@@ -105,7 +107,7 @@ namespace Pentia.Models {
         }
 
         public void Draw() {
-            renderer.Draw(cells);        
+            renderer.Draw(cells);
         }
 
         private void checkRows() {
@@ -149,9 +151,9 @@ namespace Pentia.Models {
         }
 
         private class Renderer {
-            private static readonly Brush[] PC_BRS =
-                { Brushes.MintCream, Brushes.Red, Brushes.Lime, Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow, 
-                   Brushes.DarkGray};
+/*            private static readonly Brush[] PC_BRS = {Brushes.MintCream, Brushes.Red, Brushes.Lime, 
+                Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow, Brushes.DarkGray};*/
+            private static RectangleGeometry[] rgColor;
 
             private Field field;
             private int cols, rows, yOffset, wallThickness;
@@ -161,7 +163,7 @@ namespace Pentia.Models {
                 set { rcCells[wallThickness + i, j] = value; }
             }
             private int cellWidth, cellHeight;
-            
+
             public Renderer(Field field, int dispWallThickness = 0) {
                 this.field = field;
                 this.cols = field.COLS;
@@ -170,18 +172,28 @@ namespace Pentia.Models {
                 this.wallThickness = (0 < field.wallThickness) ? dispWallThickness : 0;
                 this.rcCells = new Rectangle[cols + wallThickness * 2, rows + wallThickness];
 
-                this.cellWidth = (int)(field.canvas.Width / cols);
-                this.cellHeight = (int)(field.canvas.Height / rows);
+                this.cellWidth = (int)(field.canvas.Width / (cols + wallThickness * 2));
+                this.cellHeight = (int)(field.canvas.Height / (rows + wallThickness));
+
+                rgColor = new RectangleGeometry[(int)PcColor.Leng];
+                for (int i = 0; i < rgColor.Length; i++) {
+                    rgColor[i] = new RectangleGeometry(new Rect(i * cellWidth, 0, cellWidth, cellHeight));
+                }
 
                 for (int j = 0; j < rows + wallThickness; j++) {
                     for (int i = 0; i < cols + wallThickness * 2; i++) {
                         rcCells[i, j] = new Rectangle();
-                        rcCells[i, j].Width = cellWidth;
+/*                        rcCells[i, j].Width = cellWidth;
                         rcCells[i, j].Height = cellHeight;
                         rcCells[i, j].Fill = PC_BRS[(int)PcColor.None];
                         rcCells[i, j].Stroke = Brushes.Gray;
-                        rcCells[i, j].StrokeThickness = 0.4;
-                        Canvas.SetLeft(rcCells[i, j], i * cellWidth);
+                        rcCells[i, j].StrokeThickness = 0.4;*/
+
+                        ImageLoader.LoadImage("Cells", rcCells[i, j]);
+                        int c = (int)PcColor.None;
+                        rcCells[i, j].Clip = rgColor[c];
+
+                        Canvas.SetLeft(rcCells[i, j], (i - c) * cellWidth);
                         Canvas.SetTop(rcCells[i, j], j  * cellHeight);
                         field.canvas.Children.Add(rcCells[i, j]);
                     }
@@ -193,7 +205,11 @@ namespace Pentia.Models {
             private void setWalls() {
                 for (int j = 0; j < rows + wallThickness; j++) {
                     for (int i = 0; i < cols + wallThickness * 2; i++) {
-                        rcCells[i, j].Fill = PC_BRS[(int)field.cells[field.wallThickness - wallThickness + i, yOffset + j]];
+//                        rcCells[i, j].Fill = PC_BRS[(int)field.cells[field.wallThickness - wallThickness + i, yOffset + j]];
+
+                        int c = (int)field.cells[field.wallThickness - wallThickness + i, yOffset + j];
+                        rcCells[i, j].Clip = rgColor[c];
+                        Canvas.SetLeft(rcCells[i, j], (i - c) * cellWidth);
                     }
                 }
             }
@@ -201,7 +217,11 @@ namespace Pentia.Models {
             public void Draw(PcColor[,] cells) { 
                 for (int j = 0; j < rows; j++) {
                     for (int i = 0; i < cols; i++) {
-                        this[i, j].Fill = PC_BRS[(int)field[i, j]];
+//                        this[i, j].Fill = PC_BRS[(int)field[i, j]];
+
+                        int c = (int)field[i, j];
+                        this[i, j].Clip = rgColor[c];
+                        Canvas.SetLeft(this[i, j], (wallThickness + i - c) * cellWidth);
                     }
                 }
             }

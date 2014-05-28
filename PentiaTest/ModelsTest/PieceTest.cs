@@ -12,16 +12,24 @@ namespace PentiaTest.ModelsTest {
 
         [ClassInitialize]
         public static void InitializeTarget(TestContext testContext) {
+            if (ImageLoader.IsRegistered("Cells") == false) {
+                ImageLoader.AddImage("Cells", new Uri(@"..\..\..\Pentia\Resources\Cells.png", UriKind.Relative));
+            }
             var cvs = new Canvas();
             cvs.Width = 200;
             cvs.Height = 400;
             field = new Field(cvs, 10, 20, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
         }
 
+        [ClassCleanup]
+        public static void FinalizeTarget() {
+            ImageLoader.RemoveImage("Cells");
+        }
+
         [TestInitialize]
         public void BeginTestMethod() {
             field.Reset();
-            target = new Piece(field, field.COLS / 2, 0, PcColor.Blue, PcType.J);
+            target = new Piece(field, field.COLS / 2, 0, PcColor.Blue, PcType.J0);
         }
 
         [TestMethod]
