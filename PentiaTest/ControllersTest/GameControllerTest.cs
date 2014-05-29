@@ -32,6 +32,19 @@ namespace PentiaTest.ControllersTest {
             if (ImageLoader.IsRegistered("Cells") == false) {
                 ImageLoader.AddImage("Cells", new Uri(@"..\..\..\Pentia\Resources\Cells.png", UriKind.Relative));
             }
+
+            if (AudioPlayer.IsRegistered("Pause") == false) {
+                AudioPlayer.AddSource("Pause", new Uri(@"..\..\..\Pentia\Resources\Pause.wav", UriKind.Relative));
+            }
+            if (AudioPlayer.IsRegistered("Restart") == false) {
+                AudioPlayer.AddSource("Restart", new Uri(@"..\..\..\Pentia\Resources\Restart.wav", UriKind.Relative));
+            }
+            if (AudioPlayer.IsRegistered("GameOver") == false) {
+                AudioPlayer.AddSource("GameOver", new Uri(@"..\..\..\Pentia\Resources\GameOver.wav", UriKind.Relative));
+            }
+            if (AudioPlayer.IsRegistered("DeleteRows") == false) {
+                AudioPlayer.AddSource("DeleteRows", new Uri(@"..\..\..\Pentia\Resources\DeleteRows.wav", UriKind.Relative));
+            }
             target.Initialize(page);
         }
 
@@ -79,6 +92,7 @@ namespace PentiaTest.ControllersTest {
         [TestMethod]
         public void StopTest() {
             bool expected = true;
+            target.Start();
             bool actual = target.Stop();
             Assert.AreEqual(expected, actual);
         }

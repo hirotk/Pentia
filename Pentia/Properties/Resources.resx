@@ -121,4 +121,16 @@
     <value>..\..\Resources\Cells.png</value>
     <comment>sprite image</comment>
   </data>
+  <data name="DeleteRows" xml:space="preserve">
+    <value>..\..\Resources\DeleteRows.wav</value>
+  </data>
+  <data name="GameOver" xml:space="preserve">
+    <value>..\..\Resources\GameOver.wav</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>..\..\Resources\Pause.wav</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>..\..\Resources\Restart.wav</value>
+  </data>
 </root>

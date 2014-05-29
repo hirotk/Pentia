@@ -71,6 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilitiesTest\NPointTest.cs" />
     <Compile Include="UtilitiesTest\ImageLoaderTest.cs" />
+    <Compile Include="UtilitiesTest\AudioPlayerTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

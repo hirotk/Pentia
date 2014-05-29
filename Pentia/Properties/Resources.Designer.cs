@@ -68,5 +68,41 @@ namespace Pentia.Properties {
                 return ResourceManager.GetString("Cells", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ..\..\Resources\DeleteRows.wav.
+        /// </summary>
+        internal static string DeleteRows {
+            get {
+                return ResourceManager.GetString("DeleteRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ..\..\Resources\GameOver.wav.
+        /// </summary>
+        internal static string GameOver {
+            get {
+                return ResourceManager.GetString("GameOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ..\..\Resources\Pause.wav.
+        /// </summary>
+        internal static string Pause {
+            get {
+                return ResourceManager.GetString("Pause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ..\..\Resources\Restart.wav.
+        /// </summary>
+        internal static string Restart {
+            get {
+                return ResourceManager.GetString("Restart", resourceCulture);
+            }
+        }
     }
 }
