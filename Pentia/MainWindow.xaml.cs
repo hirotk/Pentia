@@ -7,12 +7,18 @@ namespace Pentia {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : NavigationWindow {
+        public bool IsBgmOn { get; set; }
+        public bool IsSoundOn { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         public MainWindow() {
             InitializeComponent();
             this.Navigating += onNavigating;
+
+            IsBgmOn = true;
+            IsSoundOn = true;
             this.Navigate(new TitlePage(this));
         }
 

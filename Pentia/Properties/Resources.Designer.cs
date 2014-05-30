@@ -61,6 +61,15 @@ namespace Pentia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ..\..\Resources\BGM.mp3.
+        /// </summary>
+        internal static string BGM {
+            get {
+                return ResourceManager.GetString("BGM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ..\..\Resources\Cells.png.
         /// </summary>
         internal static string Cells {

@@ -25,6 +25,12 @@ namespace PentiaTest.ControllersTest {
         [ClassCleanup]
         public static void FinalizeTarget() {
             ImageLoader.RemoveImage("Cells");
+
+            AudioPlayer.RemoveSource("Pause");
+            AudioPlayer.RemoveSource("Restart");
+            AudioPlayer.RemoveSource("GameOver");
+            AudioPlayer.RemoveSource("DeleteRows");
+            AudioPlayer.RemoveSource("BGM");
         }
 
         [TestInitialize]
@@ -44,6 +50,9 @@ namespace PentiaTest.ControllersTest {
             }
             if (AudioPlayer.IsRegistered("DeleteRows") == false) {
                 AudioPlayer.AddSource("DeleteRows", new Uri(@"..\..\..\Pentia\Resources\DeleteRows.wav", UriKind.Relative));
+            }
+            if (AudioPlayer.IsRegistered("BGM") == false) {
+                AudioPlayer.AddSource("BGM", new Uri(@"..\..\..\Pentia\Resources\BGM.mp3", UriKind.Relative));
             }
             target.Initialize(page);
         }

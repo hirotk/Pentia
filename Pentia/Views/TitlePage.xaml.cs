@@ -22,6 +22,10 @@ namespace Pentia.Views {
             this.NavigationService.Navigate(new HighScorePage());
         }
 
+        private void OptionButton_Click(object sender, RoutedEventArgs e) {
+            this.NavigationService.Navigate(new OptionPage(this.mainWnd));
+        }
+        
         private void QuitButton_Click(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
         }

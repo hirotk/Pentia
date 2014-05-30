@@ -9,6 +9,8 @@ namespace Pentia.Views {
     /// </summary>
     public partial class GamePage : Page {
         public MainWindow MainWnd { get; private set; }
+        public bool IsBgmOn { get { return MainWnd.IsBgmOn; } }
+        public bool IsSoundOn { get { return MainWnd.IsSoundOn; } }
         public GameController GameCtrl { get; private set; }
 
         public GamePage(MainWindow wnd) {

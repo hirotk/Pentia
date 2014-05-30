@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BGM" xml:space="preserve">
+    <value>..\..\Resources\BGM.mp3</value>
+  </data>
   <data name="Cells" xml:space="preserve">
     <value>..\..\Resources\Cells.png</value>
     <comment>sprite image</comment>

@@ -80,10 +80,19 @@ namespace Pentia.Controllers {
             if (AudioPlayer.IsRegistered("DeleteRows") == false) {
                 AudioPlayer.AddSource("DeleteRows", new Uri(Properties.Resources.DeleteRows, UriKind.Relative));
             }
+            if (AudioPlayer.IsRegistered("BGM") == false) {
+                AudioPlayer.AddSource("BGM", new Uri(Properties.Resources.BGM, UriKind.Relative));
+            }
         }
         
         private void releaseResources() {
             ImageLoader.RemoveImage("Cells");
+
+            AudioPlayer.RemoveSource("Pause");
+            AudioPlayer.RemoveSource("Restart");
+            AudioPlayer.RemoveSource("GameOver");
+            AudioPlayer.RemoveSource("DeleteRows");
+            AudioPlayer.RemoveSource("BGM");
         }
 
         private void setBinding() {   
@@ -136,6 +145,7 @@ namespace Pentia.Controllers {
         public bool Start() {
             if (timer.IsEnabled == false) {
                 timer.Start();
+                if (page.IsBgmOn) { AudioPlayer.Play("BGM"); }
                 this.Status += "Start the game\n";
                 return true;
             }
@@ -145,6 +155,7 @@ namespace Pentia.Controllers {
         public bool Stop() {
             if (timer.IsEnabled) {
                 timer.Stop();
+                if (page.IsBgmOn) { AudioPlayer.Stop("BGM"); }
                 this.Status += "Stop the game\n";
                 return true;
             }
@@ -168,9 +179,9 @@ namespace Pentia.Controllers {
                 case Key.P: 
                     this.Status += "Pause/Start\n";
                     if (this.Stop()) {
-                        AudioPlayer.Play("Pause", 1);
+                        if (page.IsSoundOn) { AudioPlayer.Play("Pause", 1); }
                     } else {
-                        AudioPlayer.Play("Restart", 1);
+                        if (page.IsSoundOn) { AudioPlayer.Play("Restart", 1); }
                         this.Start();
                     }
                     break;
@@ -185,12 +196,12 @@ namespace Pentia.Controllers {
                 recorder.Update(board.DeletedRowNum);
                 this.timer.Interval = recorder.TickInterval;
 
-                AudioPlayer.Play("DeleteRows", board.DeletedRowNum);
+                if (page.IsSoundOn) { AudioPlayer.Play("DeleteRows", board.DeletedRowNum); }
             }
 
             if (board.Status == "Game over") {
                 this.Terminate();
-                AudioPlayer.Play("GameOver", 1);
+                if (page.IsSoundOn) { AudioPlayer.Play("GameOver", 1); }
                 if (recorder.IsNewRecord) { showNameInput(); }
             }
 
