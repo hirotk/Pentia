@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using Pentia.Controllers;
 using Pentia.Utilities;
-using System.Diagnostics;
+using System.Windows.Media.Animation;
 
 namespace Pentia.Models {
     public class Field  : IUpdatable {
@@ -19,8 +15,6 @@ namespace Pentia.Models {
         public int ROWS { get; private set; }
         private PcColor[,] cells;
         public PcColor this[int i, int j] {
-//         get { return (0 <= i && i < COLS && 0 <= j && j < ROWS) ?
-//                    cells[wallThickness + i, yOffset + j] : PcColor.Wall; } 
             get { return cells[wallThickness + i, yOffset + j]; }
             set { cells[wallThickness + i, yOffset + j] = value; } 
         }
@@ -142,6 +136,12 @@ namespace Pentia.Models {
             while (0 < DelibleRowNum) {
                 for (int j = ROWS - 1; j >= 0; j--) {
                     if (GetIsDelibleRow(j)) {
+                        renderer.FlashRow(j);
+                    }
+                }
+
+                for (int j = ROWS - 1; j >= 0; j--) {
+                    if (GetIsDelibleRow(j)) {
                         deleteRow(j);
                         deletedRowNum++;
                     }
@@ -151,8 +151,6 @@ namespace Pentia.Models {
         }
 
         private class Renderer {
-/*            private static readonly Brush[] PC_BRS = {Brushes.MintCream, Brushes.Red, Brushes.Lime, 
-                Brushes.Blue, Brushes.Cyan, Brushes.Magenta, Brushes.Yellow, Brushes.DarkGray};*/
             private static RectangleGeometry[] rgColor;
 
             private Field field;
@@ -183,12 +181,6 @@ namespace Pentia.Models {
                 for (int j = 0; j < rows + wallThickness; j++) {
                     for (int i = 0; i < cols + wallThickness * 2; i++) {
                         rcCells[i, j] = new Rectangle();
-/*                        rcCells[i, j].Width = cellWidth;
-                        rcCells[i, j].Height = cellHeight;
-                        rcCells[i, j].Fill = PC_BRS[(int)PcColor.None];
-                        rcCells[i, j].Stroke = Brushes.Gray;
-                        rcCells[i, j].StrokeThickness = 0.4;*/
-
                         ImageLoader.LoadImage("Cells", rcCells[i, j]);
                         int c = (int)PcColor.None;
                         rcCells[i, j].Clip = rgColor[c];
@@ -205,8 +197,6 @@ namespace Pentia.Models {
             private void setWalls() {
                 for (int j = 0; j < rows + wallThickness; j++) {
                     for (int i = 0; i < cols + wallThickness * 2; i++) {
-//                        rcCells[i, j].Fill = PC_BRS[(int)field.cells[field.wallThickness - wallThickness + i, yOffset + j]];
-
                         int c = (int)field.cells[field.wallThickness - wallThickness + i, yOffset + j];
                         rcCells[i, j].Clip = rgColor[c];
                         Canvas.SetLeft(rcCells[i, j], (i - c) * cellWidth);
@@ -217,12 +207,20 @@ namespace Pentia.Models {
             public void Draw(PcColor[,] cells) { 
                 for (int j = 0; j < rows; j++) {
                     for (int i = 0; i < cols; i++) {
-//                        this[i, j].Fill = PC_BRS[(int)field[i, j]];
-
                         int c = (int)field[i, j];
                         this[i, j].Clip = rgColor[c];
                         Canvas.SetLeft(this[i, j], (wallThickness + i - c) * cellWidth);
                     }
+                }
+            }
+
+            private static DoubleAnimation fadeout = new DoubleAnimation(1.0, 0.5, TimeSpan.FromMilliseconds(200));
+            private static DoubleAnimation fadein = new DoubleAnimation(0.5, 1.0, TimeSpan.FromMilliseconds(200));
+
+            public void FlashRow(int row) {
+                for (int i = 0; i < cols; i++) {
+                    this[i, row].BeginAnimation(Rectangle.OpacityProperty, fadeout);
+                    this[i, row].BeginAnimation(Rectangle.OpacityProperty, fadein);
                 }
             }
         }
