@@ -23,7 +23,7 @@
         </StackPanel>
 
         <StackPanel Name="spBoard" DockPanel.Dock="Right" Width="350" Background="#8080c080">
-            <Canvas Name="cvField"  Width="240" Height="420" RenderOptions.EdgeMode="Aliased" Margin="10,20,0,0"  Background="#f0c0c0f0">
+            <Canvas Name="cvField"  Width="280" Height="500" RenderOptions.EdgeMode="Aliased" Margin="10,20,0,0"  Background="#f0c0c0f0">
             </Canvas>
             
             <StackPanel Name="spNameInput" Width="200" Height="100" Margin="10,-500, 0, 0" Background="LightYellow">

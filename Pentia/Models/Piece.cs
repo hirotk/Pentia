@@ -37,26 +37,26 @@ namespace Pentia.Models {
     public enum PcType {
         I = 0, 
         L0, 
-        L1,
-        L2,
-        U,
+//        L1,
+//        L2,
+//        U,
         J0, 
-        J1,
-        J2,
+//        J1,
+//        J2,
         T0,
         T1,
-        T2,
-        X,
+//        T2,
+//        X,
         O0,
         O1,
         S0,
-        S1,
-        S2,
-        S3,
+//        S1,
+//        S2,
+//        S3,
         Z0,
-        Z1,
-        Z2,
-        Z3,
+//        Z1,
+//        Z2,
+//        Z3,
         Leng,
         Random
     }
@@ -66,34 +66,46 @@ namespace Pentia.Models {
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-2,0), new NPoint(2,0)}, // I
             
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(2,0), new NPoint(2,-1)},  // L0
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-1,-1), new NPoint(-1,-2)}, // L1
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-1,-1), new NPoint(1,1)}, // L2
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-1,-1), new NPoint(-1,-2)}, // L1
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-1,-1), new NPoint(1,1)}, // L2
 
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-1,-1), new NPoint(1,-1)}, // U
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-1,-1), new NPoint(1,-1)}, // U
 
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(-2,0), new NPoint(-2,-1)}, // J0
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(1,-1),  new NPoint(1,-2)}, // J1
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(1,-1),  new NPoint(-1,1)}, // J2
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(1,-1),  new NPoint(1,-2)}, // J1
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(1,-1),  new NPoint(-1,1)}, // J2
 
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(2,0)}, // T0
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-2, 0)}, // T1
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(0, -2)}, // T2
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(0, -2)}, // T2
 
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(0, 1)}, // X
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(0, 1)}, // X
 
             new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(-1, -1)}, // O0
             new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(-1, 0)}, // O1
 
             new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(2, -1)}, // S0
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(1, -2)}, // S1 (W0)
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(0, -2)}, // S2
-            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(0, 1)}, // S3
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(1, -2)}, // S1 (W0)
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(0, -2)}, // S2
+//            new NPoint[] {new NPoint(0,0), new NPoint(-1,0), new NPoint(0,-1), new NPoint(1,-1), new NPoint(0, 1)}, // S3
 
             new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(-2, -1)}, // Z0
-            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(-1, -2)}, // Z1 (W1)
-            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(0, -2)}, // Z2
-            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(0, 1)}, // Z3
+//            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(-1, -2)}, // Z1 (W1)
+//            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(0, -2)}, // Z2
+//            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(0, 1)}, // Z3
         };
+        private static readonly PcColor[] PC_CLRS =  {
+            PcColor.Red,
+            PcColor.Cyan,
+            PcColor.Yellow,
+            PcColor.Purple,
+            PcColor.Orange,
+            PcColor.Blue,
+            PcColor.Green,
+            PcColor.Lime,
+            PcColor.Magenta
+        };
+
         public const int PC_SIZE = 5;
 
         public string Status { get; set; }
@@ -113,10 +125,10 @@ namespace Pentia.Models {
         public PcColor Color { get; private set; }
         public NPoint[] Shape { get; private set; }
 
-        public Piece(Field field, int x, int y, PcColor color, PcType type) {
+        public Piece(Field field, int x, int y, PcType type, PcColor? color= null) {
             this.Field = field;
             this.pos = new NPoint(x, y);
-            this.Color = color;
+            this.Color = color ?? PC_CLRS[(int)type];
 
             var PcShp = PC_SHPS[(int)type];
             this.Shape = new NPoint[PcShp.Length];

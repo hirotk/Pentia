@@ -29,7 +29,7 @@ namespace PentiaTest.ModelsTest {
         [TestInitialize]
         public void BeginTestMethod() {
             field.Reset();
-            target = new Piece(field, field.COLS / 2, 0, PcColor.Blue, PcType.J0);
+            target = new Piece(field, field.COLS / 2, 0, PcType.J0);
         }
 
         [TestMethod]

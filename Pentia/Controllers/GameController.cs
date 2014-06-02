@@ -119,8 +119,8 @@ namespace Pentia.Controllers {
 
             this.page.MainWnd.KeyDown += this.OnKeyDown;
 
-            // Generate Model Objects
-            var field = new Field(this.page.cvField, cols:10, rows:20,
+            // Generate model objects
+            var field = new Field(this.page.cvField, cols:12, rows:24,
                 yOffset: Piece.PC_SIZE / 2, wallThickness: Piece.PC_SIZE / 2, dispWallThickness: 1);
             var nextField = new Field(this.page.cvNextField, cols: Piece.PC_SIZE, rows: Piece.PC_SIZE);
             board = new Board(field, nextField);

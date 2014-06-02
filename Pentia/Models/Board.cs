@@ -38,7 +38,7 @@ namespace Pentia.Models {
 
         private Piece createPiece(Field field, int x, int y, PcType type = PcType.Random) {
             if (type == PcType.Random) { type = (PcType)rand.Next((int)PcType.Leng); }
-            var piece = new Piece(field, x, y, (PcColor)((int)type + 1), type);
+            var piece = new Piece(field, x, y, type);
             field.PutPiece(piece);
             return piece;
         }
