@@ -56,9 +56,10 @@ namespace Pentia.Models {
 
             if (piece.Y <= 0) {
                 this.Status += "Game over";
-                return; 
+                return;
             }
 
+            // Get the next piece
             var nextPiece = pieceQueue.Dequeue();
             nextField.RemovePiece(nextPiece);
 
@@ -66,7 +67,7 @@ namespace Pentia.Models {
             nextPiece.X = this.field.COLS / 2;
             nextPiece.Y = 0;
             this.piece = nextPiece;
-            
+
             nextPiece = createPiece(nextField, nextField.COLS / 2, nextField.ROWS / 2);
             pieceQueue.Enqueue(nextPiece);
             nextField.Draw();

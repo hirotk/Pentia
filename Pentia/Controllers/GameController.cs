@@ -96,7 +96,7 @@ namespace Pentia.Controllers {
 
         private void setBinding() {   
             var binding = initBinding(new Binding(), this, "Status", bindingMode:BindingMode.OneWay);
-            page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
+//            page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
 
             binding = initBinding(new Binding(), recorder, "Score", "{0, 8}", BindingMode.OneWay);
             page.tbScore.SetBinding(TextBlock.TextProperty, binding);
@@ -110,6 +110,7 @@ namespace Pentia.Controllers {
 
         public void Initialize(GamePage page) {
             this.page = page;
+            this.isOver = false;
 
             setResources();
 
@@ -165,8 +166,20 @@ namespace Pentia.Controllers {
             this.Update();
         }
 
+        private bool isOver;
+
         public void OnKeyDown(object sender, KeyEventArgs e) {
-            if (isNameInputting) { return; }
+            if (!isOver && e.Key == Key.P) {
+                this.Status += "Pause/Start\n";
+                if (this.Stop()) {
+                    if (page.IsSoundOn) { AudioPlayer.Play("Pause", 1); }
+                } else {
+                    if (page.IsSoundOn) { AudioPlayer.Play("Restart", 1); }
+                    this.Start();
+                }
+            }
+
+            if (timer.IsEnabled == false) { return; }
             
             switch (e.Key) {
 //                case Key.I: this.Status += "Up\n"; break;
@@ -175,15 +188,6 @@ namespace Pentia.Controllers {
                 case Key.N: board.MovePiece(Direction.Down); break;
                 case Key.K: board.RotatePiece(RtDirection.Clockwise); break;
                 case Key.I: board.RotatePiece(RtDirection.CtrClockwise); break;
-                case Key.P: 
-                    this.Status += "Pause/Start\n";
-                    if (this.Stop()) {
-                        if (page.IsSoundOn) { AudioPlayer.Play("Pause", 1); }
-                    } else {
-                        if (page.IsSoundOn) { AudioPlayer.Play("Restart", 1); }
-                        this.Start();
-                    }
-                    break;
             }
         }
 
@@ -199,8 +203,10 @@ namespace Pentia.Controllers {
             }
 
             if (board.Status == "Game over") {
-                this.Terminate();
                 if (page.IsSoundOn) { AudioPlayer.Play("GameOver", 1); }
+                this.Stop();
+                this.isOver = true;
+                showGameOver();
                 if (recorder.IsNewRecord) { showNameInput(); }
             }
 
@@ -213,6 +219,7 @@ namespace Pentia.Controllers {
             this.Status = "Reset the game\n";            
             board.Reset();
             hideNameInput();
+            hideGameOver();
 
             this.Status += board.Status;
             board.Status = "";
@@ -226,8 +233,12 @@ namespace Pentia.Controllers {
             page.spNameInput.Visibility = Visibility.Hidden;
         }
 
-        private bool isNameInputting {
-            get { return page.spNameInput.Visibility == Visibility.Visible; }
+        private void showGameOver() {
+            page.tbGameOver.Visibility = Visibility.Visible;
+        }
+
+        private void hideGameOver() {
+            page.tbGameOver.Visibility = Visibility.Hidden;
         }
     }
 }

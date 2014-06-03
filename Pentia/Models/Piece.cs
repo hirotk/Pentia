@@ -132,7 +132,7 @@ namespace Pentia.Models {
 
             var PcShp = PC_SHPS[(int)type];
             this.Shape = new NPoint[PcShp.Length];
-            PcShp.CopyTo(this.Shape, 0); 
+            PcShp.CopyTo(this.Shape, 0);
         }
 
         private bool canMove(Direction direction) {

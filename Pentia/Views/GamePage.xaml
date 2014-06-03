@@ -6,33 +6,156 @@
       mc:Ignorable="d" 
       d:DesignWidth="500" d:DesignHeight="600"
 	Title="GamePage" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+    <Page.Resources>
+        <Style x:Key="HeaderStyle" TargetType="TextBlock">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="WhiteSmoke" Offset="0"/>
+                        <GradientStop Color="Silver" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5, 10, 0, 0" />
+        </Style>
+        
+        <Style x:Key="ValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="GreenYellow" Offset="0"/>
+                        <GradientStop Color="Lime" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="10, 5, 40, 0" />
+            <Setter Property="Padding" Value="0, 0, 5, 0" />
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
 
-    <DockPanel Width="500" Height="600" Margin="0,-2,0,2">
-        <StackPanel Name="spRecorder" DockPanel.Dock="Left" Width="150" Background="#80c08080">
-            <TextBlock>Next</TextBlock>
-            <Border Width="102" Height="102" BorderThickness="1" BorderBrush="Red">
-                <Canvas Name="cvNextField" Width="100" Height="100" RenderOptions.EdgeMode="Aliased" Background="#f0c0c0f0">                    
+        <Style x:Key="GameOverStyle" TargetType="TextBlock">
+            <Setter Property="Panel.ZIndex" Value="1" />
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="HotPink" Offset="0"/>
+                        <GradientStop Color="DeepPink" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+            <Setter Property="FontSize" Value="48"/>
+            <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5, 120, 0, 0" />
+        </Style>
+
+        <Style x:Key="NameInputStyle" TargetType="StackPanel">
+            <Setter Property="Panel.ZIndex" Value="1" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="100" />
+            <Setter Property="Canvas.Left" Value="40" />
+            <Setter Property="Canvas.Top" Value="200" />
+        </Style>
+
+        <Style x:Key="NameInputBackStyle" TargetType="Rectangle">
+            <Setter Property="Fill">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="Gray" Offset="0"/>
+                        <GradientStop Color="DimGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Opacity" Value="0.6" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="100" />
+            <Setter Property="RadiusX" Value="8" />
+            <Setter Property="RadiusY" Value="8" />
+            <Setter Property="Margin" Value="0 0 0 -100" />
+        </Style>
+
+        <Style x:Key="NameInputButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="LightYellow" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="DimGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="20" />            
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+    </Page.Resources>
+
+    <DockPanel Width="500" Height="600">
+        <!-- Background Image -->
+        <StackPanel DockPanel.Dock="Top" Margin="0 0 0 -600">
+            <Rectangle Width="500" Height="600" Opacity="0.9">
+                <Rectangle.Fill>
+                    <ImageBrush  ImageSource="..\Resources\GameBack.jpg" Stretch="None"/>
+                </Rectangle.Fill>
+            </Rectangle>
+        </StackPanel>
+        
+        <StackPanel Name="spRecorder" DockPanel.Dock="Left" Width="150" Background="#90696969">
+            <TextBlock Style="{StaticResource HeaderStyle}" Margin="5, 15,0,5">Next</TextBlock>
+            <Border Width="102" Height="102" BorderThickness="1" BorderBrush="LightGray">
+                <Canvas Name="cvNextField" Width="100" Height="100" RenderOptions.EdgeMode="Aliased" Background="MintCream">
                 </Canvas>
             </Border>
-            <TextBlock>Score</TextBlock>
-            <TextBlock Name="tbScore">0</TextBlock>
-            <TextBlock>Level</TextBlock>
-            <TextBlock Name="tbLevel">1</TextBlock>
-            <TextBlock>Lines</TextBlock>
-            <TextBlock Name="tbLines">0</TextBlock>
+            <TextBlock Style="{StaticResource HeaderStyle}">Score</TextBlock>
+            <TextBlock Name="tbScore" Style="{StaticResource ValueStyle}">0</TextBlock>
+            <TextBlock Style="{StaticResource HeaderStyle}">Level</TextBlock>
+            <TextBlock Name="tbLevel" Style="{StaticResource ValueStyle}">1</TextBlock>
+            <TextBlock Style="{StaticResource HeaderStyle}">Lines</TextBlock>
+            <TextBlock Name="tbLines" Style="{StaticResource ValueStyle}">0</TextBlock>
         </StackPanel>
 
-        <StackPanel Name="spBoard" DockPanel.Dock="Right" Width="350" Background="#8080c080">
-            <Canvas Name="cvField"  Width="280" Height="500" RenderOptions.EdgeMode="Aliased" Margin="10,20,0,0"  Background="#f0c0c0f0">
-            </Canvas>
-            
-            <StackPanel Name="spNameInput" Width="200" Height="100" Margin="10,-500, 0, 0" Background="LightYellow">
-                <TextBlock Name="tbMsg" Text="Please enter your name." Margin="20, 5"/>
-                <TextBox Name="tbxPlayerName"  Width="120" Height="24" Margin="10, 5, 10, 10" />
-                <Button  Name="btnNameInput" Width="40" Height="20" Content="OK" Click="NameInputButton_Click" />
-            </StackPanel>
+        <StackPanel Name="spBoard" DockPanel.Dock="Right" Width="350">
+            <Canvas Name="cvField"  Width="280" Height="500" RenderOptions.EdgeMode="Aliased" Margin="10,40,0,0"  Background="MintCream">
+                <Canvas.Effect>
+                    <DropShadowEffect Color="Gray" ShadowDepth="2" Opacity="0.5" BlurRadius="2"/>
+                </Canvas.Effect>
+                
+                <TextBlock  Name="tbGameOver" Style="{StaticResource GameOverStyle}" Text="Game Over" />
+                
+                <StackPanel Name="spNameInput" Style="{StaticResource NameInputStyle}">
+                    <Rectangle  Style="{StaticResource NameInputBackStyle}" />
 
-            <TextBlock Name="tbMonitor" HorizontalAlignment="Left" Margin="20,-400,0,0" TextWrapping="Wrap" Text="TextBlock" />
+                    <TextBlock Name="tbMsg" Text="Please enter your name." Margin="20, 10, 20, 0" Foreground="Lime" />
+                    <TextBox Name="tbxPlayerName" Width="120" Height="24" Margin="20 12 20 0" FontSize="14" 
+                        Foreground="Yellow" Background="DimGray" Text=""  MaxLength="12"  MaxLines="1" Opacity="0.9" />
+                    <Button  Name="btnNameInput"  Style="{StaticResource NameInputButtonStyle}" Margin="140, 10, 10, 0" Content="OK" Click="NameInputButton_Click" />
+                </StackPanel>
+            </Canvas>
+
+            <!--<TextBlock Name="tbMonitor" HorizontalAlignment="Left" Margin="20,-400,0,0" TextWrapping="Wrap" Text="TextBlock" />-->
         </StackPanel>
        
     </DockPanel>
