@@ -4,14 +4,86 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignWidth="500" d:DesignHeight="600"
 	Title="TitlePage">
 
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="80,50,0,0" TextWrapping="Wrap" Text="Pentia" VerticalAlignment="Top" FontSize="48"/>
-        <Button Content="Play" HorizontalAlignment="Left" Margin="110,150,0,0" VerticalAlignment="Top" Width="75" Click="PlayButton_Click"/>
-        <Button Content="High Scores" HorizontalAlignment="Left" Margin="110,180,0,0" VerticalAlignment="Top" Width="75" Click="HiScoreButton_Click"/>
-        <Button Content="Options" HorizontalAlignment="Left" Margin="110,210,0,0" VerticalAlignment="Top" Width="75" Click="OptionButton_Click"/>
-        <Button Content="Quit" HorizontalAlignment="Left" Margin="110,240,0,0" VerticalAlignment="Top" Width="75" Click="QuitButton_Click" />
-    </Grid>
+    <Page.Resources>
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <TextBlock Name="ctTextBlock" TextAlignment="Center">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="DarkGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+                <ContentPresenter />
+            </TextBlock>
+            
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="ctTextBlock" Property="Foreground">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0">
+                                <GradientStop Color="Yellow" Offset="0"/>
+                                <GradientStop Color="Gold" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter TargetName="ctTextBlock" Property="Foreground">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0">
+                                <GradientStop Color="Yellow" Offset="0"/>
+                                <GradientStop Color="Gold" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>            
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+            <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF000032"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="BorderBrush" Value="#FF444444" />
+        </Style>
+    </Page.Resources>
+
+    <StackPanel Width="500" Height="600">
+        <!-- Background Image -->
+        <Rectangle Width="500" Height="600" Margin="0 0 0 -600" Opacity="0.9">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="..\Resources\TitleBack.jpg" Stretch="None" />
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- Title -->
+        <TextBlock HorizontalAlignment="Left" Margin="80,40,0,0" Text="Pentia" VerticalAlignment="Top" FontSize="100" FontWeight="Bold">
+            <TextBlock.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Orange" Offset="0"/>
+                    <GradientStop Color="DarkOrange" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF000040" BlurRadius="10"/>
+            </TextBlock.Effect>            
+        </TextBlock>
+
+        <!-- Menu -->
+        <Button Content="Play" Margin="175,30,0,0" Click="PlayButton_Click"/>
+        <Button Content="High Scores" Margin="175,15,0,0" Click="HiScoreButton_Click"/>
+        <Button Content="Options" Margin="175,15,0,0" Click="OptionButton_Click"/>
+        <Button Content="Quit" Margin="175,15,0,0" Click="QuitButton_Click" />
+    </StackPanel>
 </Page>
