@@ -4,31 +4,60 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignWidth="500" d:DesignHeight="600"
 	Title="HighScorePage" Loaded="Page_Loaded">
 
-    <StackPanel>
-        <TextBlock  Text="High Scores" />
+    <Page.Resources>
+        <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="DarkGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </Page.Resources>
 
-        <Grid Name="gdHiScore">
+    <StackPanel Width="500" Height="600">
+        <!-- Background Image -->
+        <Rectangle Width="500" Height="600" Margin="0 0 0 -600" Opacity="0.9">
+            <Rectangle.Fill>
+                <ImageBrush  ImageSource="..\Resources\ScoreBack.jpg" Stretch="None"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        
+        <!-- Title -->
+        <TextBlock Text="High Scores" Margin="0,30,0,0" FontSize="32" />
+
+        <Grid Name="gdHiScore" Margin="40 20 0 0">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Rank" Grid.Column="0"  />
