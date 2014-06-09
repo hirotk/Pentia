@@ -4,22 +4,103 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignWidth="500" d:DesignHeight="600"
 	Title="OptionPage" Unloaded="Page_Unloaded">
 
-    <StackPanel>
-        <TextBlock  Text="Options" />
-        
-        <Grid>
+    <Page.Resources>
+        <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="DarkGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <ControlTemplate x:Key="RadioButtonTemplate" TargetType="{x:Type RadioButton}">
+            <TextBlock Name="ctTextBlock">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="1,0">
+                        <GradientStop Color="LightGray" Offset="0"/>
+                        <GradientStop Color="DarkGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+                <ContentPresenter />
+            </TextBlock>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="ctTextBlock" Property="Foreground">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0">
+                                <GradientStop Color="Yellow" Offset="0"/>
+                                <GradientStop Color="Gold" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="ctTextBlock" Property="Foreground">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0">
+                                <GradientStop Color="Yellow" Offset="0"/>
+                                <GradientStop Color="Gold" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Direction="330" ShadowDepth="8" BlurRadius="12" Color="Orange" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type RadioButton}" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template" Value="{StaticResource RadioButtonTemplate}"/>
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <StackPanel Width="500" Height="600">
+        <!-- Background Image -->
+        <Rectangle Width="500" Height="600" Margin="0 0 0 -600" Opacity="0.9">
+            <Rectangle.Fill>
+                <ImageBrush  ImageSource="..\Resources\OptionBack.jpg" Stretch="None"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- Title -->
+        <TextBlock  Text="Options" Margin="0,30,0,0" FontSize="32" />
+
+        <Grid Margin="30 30 0 0">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="BGM" />
