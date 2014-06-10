@@ -15,10 +15,13 @@ namespace PentiaTest.ModelsTest {
             if (ImageLoader.IsRegistered("Cells") == false) {
                 ImageLoader.AddImage("Cells", new Uri(@"..\..\..\Pentia\Resources\Cells.png", UriKind.Relative));
             }
+            const int CELL_SIZE = 20; // [px]
+            const int COLS = 12;
+            const int ROWS = 24;
             var cvs = new Canvas();
-            cvs.Width = 200;
-            cvs.Height = 400;
-            field = new Field(cvs, 10, 20, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
+            cvs.Width = COLS * CELL_SIZE;
+            cvs.Height = ROWS * CELL_SIZE;
+            field = new Field(cvs, COLS, ROWS, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
         }
 
         [ClassCleanup]
@@ -39,6 +42,7 @@ namespace PentiaTest.ModelsTest {
             int actual = target.X;
             Assert.AreEqual(expected, actual);
         }
+
         [TestMethod]
         public void MoveLeftMaxTest() {
             int expected = 2;
@@ -56,6 +60,7 @@ namespace PentiaTest.ModelsTest {
             int actual = target.X;
             Assert.AreEqual(expected, actual);
         }
+
         [TestMethod]
         public void MoveRightMaxTest() {
             int expected = field.COLS - 2;
@@ -73,6 +78,7 @@ namespace PentiaTest.ModelsTest {
             int actual = target.Y;
             Assert.AreEqual(expected, actual);
         }
+
         [TestMethod]
         public void MoveDownMaxTest() {
             int expected = field.ROWS - 1;

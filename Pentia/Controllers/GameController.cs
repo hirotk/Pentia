@@ -30,15 +30,6 @@ namespace Pentia.Controllers {
 
         private GamePage page;
 
-        private string status;
-        public string Status {
-            get { return status; }
-            set {
-                status = value;
-                OnPropertyChanged("Status");
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string name) {
@@ -50,6 +41,7 @@ namespace Pentia.Controllers {
         private DispatcherTimer timer;
 
         private Board board;
+        public Board Board { get { return board; } }
         private Recorder recorder;
         public Recorder Recorder { get {return recorder;} }
 
@@ -94,11 +86,8 @@ namespace Pentia.Controllers {
             AudioPlayer.RemoveSource("BGM");
         }
 
-        private void setBinding() {   
-            var binding = initBinding(new Binding(), this, "Status", bindingMode:BindingMode.OneWay);
-//            page.tbMonitor.SetBinding(TextBlock.TextProperty, binding);
-
-            binding = initBinding(new Binding(), recorder, "Score", "{0, 8}", BindingMode.OneWay);
+        private void setBinding() { 
+            var binding = initBinding(new Binding(), recorder, "Score", "{0, 8}", BindingMode.OneWay);
             page.tbScore.SetBinding(TextBlock.TextProperty, binding);
 
             binding = initBinding(new Binding(), recorder, "Level", "{0, 8}", BindingMode.OneWay);
@@ -110,7 +99,6 @@ namespace Pentia.Controllers {
 
         public void Initialize(GamePage page) {
             this.page = page;
-            this.isOver = false;
 
             setResources();
 
@@ -134,19 +122,17 @@ namespace Pentia.Controllers {
         }
 
         public void Terminate() {
-            //Todo: Release resources
             this.Stop();
             releaseResources(); 
             this.page.MainWnd.KeyDown -= this.OnKeyDown;
-
-            this.Status += "Terminate the game\n";
+            this.board = null;
+            this.recorder = null;
         }
 
         public bool Start() {
             if (timer.IsEnabled == false) {
                 timer.Start();
                 if (page.IsBgmOn) { AudioPlayer.Play("BGM"); }
-                this.Status += "Start the game\n";
                 return true;
             }
             return false;
@@ -156,7 +142,6 @@ namespace Pentia.Controllers {
             if (timer.IsEnabled) {
                 timer.Stop();
                 if (page.IsBgmOn) { AudioPlayer.Stop("BGM"); }
-                this.Status += "Stop the game\n";
                 return true;
             }
             return false;
@@ -166,11 +151,9 @@ namespace Pentia.Controllers {
             this.Update();
         }
 
-        private bool isOver;
 
         public void OnKeyDown(object sender, KeyEventArgs e) {
-            if (!isOver && e.Key == Key.P) {
-                this.Status += "Pause/Start\n";
+            if (board.IsGameOver == false && e.Key == Key.P) {
                 if (this.Stop()) {
                     if (page.IsSoundOn) { AudioPlayer.Play("Pause", 1); }
                 } else {
@@ -182,7 +165,6 @@ namespace Pentia.Controllers {
             if (timer.IsEnabled == false) { return; }
             
             switch (e.Key) {
-//                case Key.I: this.Status += "Up\n"; break;
                 case Key.J: board.MovePiece(Direction.Left); break;
                 case Key.L: board.MovePiece(Direction.Right); break;
                 case Key.N: board.MovePiece(Direction.Down); break;
@@ -192,7 +174,6 @@ namespace Pentia.Controllers {
         }
 
         public void Update() {
-//            this.Status += "Update the game\n";
             board.Update();
 
             if (0 < board.DeletedRowNum) {
@@ -202,27 +183,20 @@ namespace Pentia.Controllers {
                 if (page.IsSoundOn) { AudioPlayer.Play("DeleteRows", board.DeletedRowNum); }
             }
 
-            if (board.Status == "Game over") {
+            if (board.IsGameOver) {
                 if (page.IsSoundOn) { AudioPlayer.Play("GameOver", 1); }
                 this.Stop();
-                this.isOver = true;
                 showGameOver();
                 if (recorder.IsNewRecord) { showNameInput(); }
             }
-
-            this.Status += board.Status;
-            board.Status = "";
         }
 
         public void Reset() {
-            this.Stop();
-            this.Status = "Reset the game\n";            
+            this.Stop();           
             board.Reset();
+            recorder.Reset();
             hideNameInput();
             hideGameOver();
-
-            this.Status += board.Status;
-            board.Status = "";
         }
 
         private void showNameInput() {

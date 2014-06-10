@@ -23,33 +23,40 @@ namespace PentiaTest.ModelsTest {
 
         [TestInitialize]
         public void BeginTestMethod() {
+            const int CELL_SIZE = 20;
+            const int COLS = 12;
+            const int ROWS = 24;
             var cvs = new Canvas();
-            cvs.Width = 100;
-            cvs.Height = 100;
+            cvs.Width = Piece.PC_SIZE * CELL_SIZE;
+            cvs.Height = Piece.PC_SIZE * CELL_SIZE;
             var nextField = new Field(cvs, Piece.PC_SIZE, Piece.PC_SIZE);
 
             cvs = new Canvas();
-            cvs.Width = 200;
-            cvs.Height = 400;
-            var field = new Field(cvs, 10, 20, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
+            cvs.Width = COLS * CELL_SIZE;
+            cvs.Height = ROWS * CELL_SIZE;
+            var field = new Field(cvs, COLS, ROWS, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
             target = new Board(field, nextField);
         }
 
         [TestMethod]
         public void UpdateTest() {
-            string expected = null;//"Update the board\n";
-//            expected += "Update the field\n";
+            int expected = 1;
             target.Update();
-            string actual = target.Status;
+            int actual = target.Piece.Y;
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void ResetTest() {
-            string expected = "Reset the board\n";
-            expected += "Reset the field\n";
+            PcColor expected = PcColor.None;
+
+            target.Field[0, 0] = PcColor.Red;
+            target.NextField[1, 1] = PcColor.Blue;
             target.Reset();
-            string actual = target.Status;
+
+            PcColor actual = target.Field[0, 0];
+            Assert.AreEqual(expected, actual);
+            actual = target.NextField[1, 1];
             Assert.AreEqual(expected, actual);
         }
 

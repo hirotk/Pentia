@@ -8,17 +8,22 @@ using Pentia.Utilities;
 
 namespace Pentia.Models {
     public class Board : IUpdatable {
-        public string Status { get; set; }
+        public bool IsGameOver { get; private set; }
 
         private Field field;
+        public Field Field { get { return field; } }
         private Field nextField;
+        public Field NextField { get { return nextField; } }
         private Piece piece;
+        public Piece Piece { get { return piece; } }
+
         private Queue<Piece> pieceQueue;
         private Random rand;
 
         public int DeletedRowNum { get; private set; }
 
         public Board(Field field, Field nextField) {
+            this.IsGameOver = false;
             this.field = field;
             this.nextField = nextField;
             pieceQueue = new Queue<Piece>();
@@ -44,7 +49,6 @@ namespace Pentia.Models {
         }
 
         public void Update() {
-//            this.Status += "Update the board\n";
             if (piece.Move(Direction.Down)) {
                 this.DeletedRowNum = 0;
                 return; 
@@ -55,7 +59,7 @@ namespace Pentia.Models {
             this.DeletedRowNum = deletedRowNum;
 
             if (piece.Y <= 0) {
-                this.Status += "Game over";
+                this.IsGameOver = true;
                 return;
             }
 
@@ -74,23 +78,18 @@ namespace Pentia.Models {
         }
 
         public void Reset() {
-            this.Status = "Reset the board\n";
             this.field.Reset();
             this.nextField.Reset();
-            this.Status += field.Status;
         }
 
         public bool MovePiece(Direction direction) {
             bool moved = piece.Move(direction);
-            this.Status += piece.Status;
             return moved;
         }
 
         public bool RotatePiece(RtDirection direction) {
             bool rotated = piece.Rotate(direction);
-            this.Status += piece.Status;
             return rotated;
         }
-
     }
 }

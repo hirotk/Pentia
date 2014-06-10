@@ -30,17 +30,20 @@ namespace PentiaTest.ModelsTest {
 
         [TestInitialize]
         public void BeginTestMethod() {
+            const int CELL_SIZE = 20; // [px]
+            const int COLS = 12;
+            const int ROWS = 24;
             var cvs = new Canvas();
-            cvs.Width = 200;
-            cvs.Height = 400;
-            target = new Field(cvs, 10, 20, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
+            cvs.Width = COLS * CELL_SIZE;
+            cvs.Height = ROWS * CELL_SIZE;
+            target = new Field(cvs, COLS, ROWS, Piece.PC_SIZE / 2, Piece.PC_SIZE / 2, 1);
         }
 
         [TestMethod]
         public void UpdateTest() {
-            string expected = "Update the field\n";
-            target.Update();
-            string actual = target.Status;
+            int expected = 0;
+            int actual;
+            target.Update(out actual);
             Assert.AreEqual(expected, actual);
         }
 

@@ -9,6 +9,7 @@ using Pentia;
 using Pentia.Views;
 using Pentia.Controllers;
 using Pentia.Utilities;
+using Pentia.Models;
 
 namespace PentiaTest.ControllersTest {
     [TestClass]
@@ -59,36 +60,18 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void InitializeTest() {
-            var sb = new StringBuilder();
-            sb.Append("Reset the game\n");
-            sb.Append("Reset the board\n");
-            sb.Append("Reset the field\n");
-            string expected = sb.ToString();
             target.Initialize(page);
-            string actual = target.Status;
-            Assert.AreEqual(expected, actual);
+            Assert.IsNotNull(target.Board);
+            Assert.IsNotNull(target.Recorder);
         }
 
         [TestMethod]
         public void TerminateTest() {
-            var sb = new StringBuilder();
-            sb.Append("Reset the game\n");
-            sb.Append("Reset the board\n");
-            sb.Append("Reset the field\n");
-            sb.Append("Start the game\n");
-//            sb.Append("Update the game\n");
-//            sb.Append("Update the board\n");
-//            sb.Append("Update the field\n");
-            sb.Append("Stop the game\n");
-            sb.Append("Terminate the game\n");            
-            string expected = sb.ToString();
-
-            target.Initialize(page);
             target.Start();
             target.Update();
             target.Terminate();
-            string actual = target.Status;
-            Assert.AreEqual(expected.ToString(), actual);
+            Assert.IsNull(target.Board);
+            Assert.IsNull(target.Recorder);
         }
 
         [TestMethod]
@@ -108,66 +91,34 @@ namespace PentiaTest.ControllersTest {
 
         [TestMethod]
         public void OnKeyDownTest() {
-            var sb = new StringBuilder();
-            sb.Append("Reset the game\n");
-            sb.Append("Reset the board\n");
-            sb.Append("Reset the field\n"); 
-            
-//            sb.Append("Update the game\n");
-//            sb.Append("Move the piece to the left\n");
-//            sb.Append("Update the board\n");
-//            sb.Append("Update the field\n");
-
-            sb.Append("Pause/Start\n");
-            sb.Append("Start the game\n");
-            string expected = sb.ToString();
-
+            target.Start();
+            int expected = target.Board.Piece.X + 1;
             target.OnKeyDown(page.MainWnd, new KeyEventArgs(
-                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.J));
-/*            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
                 Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.L));
-            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
-                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.N));
-            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
-                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.K));*/
 
-            target.Update();
-
-            target.OnKeyDown(page.MainWnd, new KeyEventArgs(
-                Keyboard.PrimaryDevice, new Mock<PresentationSource>().Object, 0, Key.P));
-
-            string actual = target.Status;
-            Assert.AreEqual(expected.ToString(), actual);
+            int actual = target.Board.Piece.X;
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void ResetTest() {
-            var sb = new StringBuilder();
-            sb.Append("Reset the game\n");
-            sb.Append("Reset the board\n");
-            sb.Append("Reset the field\n"); 
-            string expected = sb.ToString();
+            var expected = PcColor.None;
+            target.Board.Field[0, 0] = PcColor.Red;
+            target.Board.NextField[1, 1] = PcColor.Blue;
             target.Reset();
-            string actual = target.Status;
+            PcColor actual = target.Board.Field[0,0];
+            Assert.AreEqual(expected, actual);
+            actual = target.Board.NextField[1, 1];
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void UpdateTest() {
-            var sb = new StringBuilder();
-            sb.Append("Reset the game\n");
-            sb.Append("Reset the board\n");
-            sb.Append("Reset the field\n");
-            sb.Append("Start the game\n");
-//            sb.Append("Update the game\n");
-//            sb.Append("Update the board\n");
-//            sb.Append("Update the field\n");
-            string expected = sb.ToString();
-            target.Initialize(page);
             target.Start();
+            int expected = target.Board.Piece.Y + 1;
             target.Update();
-            string actual = target.Status;
-            Assert.AreEqual(expected.ToString(), actual);
+            int actual = target.Board.Piece.Y;
+            Assert.AreEqual(expected, actual);
         }
     }
 }

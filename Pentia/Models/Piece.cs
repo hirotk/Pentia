@@ -94,6 +94,7 @@ namespace Pentia.Models {
 //            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(0, -2)}, // Z2
 //            new NPoint[] {new NPoint(0,0), new NPoint(1,0), new NPoint(0,-1), new NPoint(-1,-1), new NPoint(0, 1)}, // Z3
         };
+
         private static readonly PcColor[] PC_CLRS =  {
             PcColor.Red,
             PcColor.Cyan,
@@ -107,9 +108,6 @@ namespace Pentia.Models {
         };
 
         public const int PC_SIZE = 5;
-
-        public string Status { get; set; }
-
         public Field Field { get; set; }
 
         private NPoint pos;
@@ -154,22 +152,7 @@ namespace Pentia.Models {
             bool moved = false;
 
             if (canMove(direction)) {
-
-                // Just output status
-/*                switch (direction) {
-                    case Direction.Left:
-                        this.Status = "Move the piece to the left\n";
-                        break;
-                    case Direction.Right:
-                        this.Status = "Move the piece to the right\n";
-                        break;
-                    case Direction.Down:
-                        this.Status = "Move the piece to the down\n";
-                        break;
-                }*/
-
                 Mover.Move(ref pos, direction);
-
                 moved = true;
             }
 
@@ -197,19 +180,7 @@ namespace Pentia.Models {
             bool rotated = false;
 
             if (canRotate(direction)) {
-
-                // Just output status
-/*                switch (direction) {
-                    case RtDirection.Clockwise:
-                        this.Status = "Rotate the piece to the clockwise\n";
-                        break;
-                    case RtDirection.CtrClockwise:
-                        this.Status = "Rotate the piece to the counter clockwise\n";
-                        break;
-                }*/
-
                 Rotator.Rotate(Shape, direction);
-
                 rotated = true;
             }
 

@@ -9,8 +9,6 @@ using System.Windows.Media.Animation;
 
 namespace Pentia.Models {
     public class Field  : IUpdatable {
-        public string Status { get; set; }
-
         public int COLS { get; private set; }
         public int ROWS { get; private set; }
         private PcColor[,] cells;
@@ -71,12 +69,10 @@ namespace Pentia.Models {
         }
 
         public void Update(out int deletedRowNum) {
-            this.Status = "Update the field\n";
             deletedRowNum = DeleteRows();
         }
 
         public void Reset() {
-            this.Status = "Reset the field\n";
             for (int j = -yOffset; j < ROWS; j++) {
                 for (int i = 0; i < COLS; i++) {
                     this[i, j] = PcColor.None;

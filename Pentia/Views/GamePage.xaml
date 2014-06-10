@@ -154,8 +154,6 @@
                     <Button  Name="btnNameInput"  Style="{StaticResource NameInputButtonStyle}" Margin="140, 10, 10, 0" Content="OK" Click="NameInputButton_Click" />
                 </StackPanel>
             </Canvas>
-
-            <!--<TextBlock Name="tbMonitor" HorizontalAlignment="Left" Margin="20,-400,0,0" TextWrapping="Wrap" Text="TextBlock" />-->
         </StackPanel>
        
     </DockPanel>

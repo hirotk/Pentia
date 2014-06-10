@@ -22,13 +22,11 @@ namespace Pentia.Views {
         }
 
         private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e) {
-            // Todo: Start Game
             this.GameCtrl.Initialize(this);
             GameCtrl.Start();
         }
 
         private void Page_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
-            // Todo: Terminate Game
             GameCtrl.Terminate();
         }
 
