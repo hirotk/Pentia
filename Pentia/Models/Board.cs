@@ -28,11 +28,7 @@ namespace Pentia.Models {
             this.nextField = nextField;
             pieceQueue = new Queue<Piece>();
 
-#if DEBUG
-            this.rand = new Random(0);
-#else
             this.rand = new Random();
-#endif
 
             this.piece = createPiece(field, field.COLS / 2, 0);
 
