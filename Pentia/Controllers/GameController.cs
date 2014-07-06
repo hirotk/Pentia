@@ -153,7 +153,7 @@ namespace Pentia.Controllers {
 
 
         public void OnKeyDown(object sender, KeyEventArgs e) {
-            if (board.IsGameOver == false && e.Key == Key.P) {
+            if (board.IsGameOver == false && (e.Key == Key.P || e.Key == Key.Q)) {
                 if (this.Stop()) {
                     if (page.IsSoundOn) { AudioPlayer.Play("Pause", 1); }
                 } else {
@@ -165,11 +165,11 @@ namespace Pentia.Controllers {
             if (timer.IsEnabled == false) { return; }
             
             switch (e.Key) {
-                case Key.J: board.MovePiece(Direction.Left); break;
-                case Key.L: board.MovePiece(Direction.Right); break;
-                case Key.N: board.MovePiece(Direction.Down); break;
-                case Key.K: board.RotatePiece(RtDirection.Clockwise); break;
-                case Key.I: board.RotatePiece(RtDirection.CtrClockwise); break;
+                case Key.J: case Key.S: board.MovePiece(Direction.Left); break;
+                case Key.L: case Key.F: board.MovePiece(Direction.Right); break;
+                case Key.N: case Key.V: board.MovePiece(Direction.Down); break;
+                case Key.K: case Key.D: board.RotatePiece(RtDirection.Clockwise); break;
+                case Key.I: case Key.E: board.RotatePiece(RtDirection.CtrClockwise); break;
             }
         }
 

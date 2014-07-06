@@ -135,6 +135,13 @@
             <TextBlock Name="tbLevel" Style="{StaticResource ValueStyle}">1</TextBlock>
             <TextBlock Style="{StaticResource HeaderStyle}">Lines</TextBlock>
             <TextBlock Name="tbLines" Style="{StaticResource ValueStyle}">0</TextBlock>
+
+            <TextBlock Margin="15,30,0,0" Foreground="LightYellow">J,S: Left</TextBlock>
+            <TextBlock Margin="15, 4,0,0" Foreground="LightYellow">L,F: Right</TextBlock>
+            <TextBlock Margin="15, 4,0,0" Foreground="LightYellow">K,D: Rotate cw</TextBlock>
+            <TextBlock Margin="15, 4,0,0" Foreground="LightYellow">I,E: Rotate ccw</TextBlock>
+            <TextBlock Margin="15, 4,0,0" Foreground="LightYellow">N,V: Down</TextBlock>
+            <TextBlock Margin="15, 4,0,0" Foreground="LightYellow">P,Q: Pause/Start</TextBlock>
         </StackPanel>
 
         <StackPanel Name="spBoard" DockPanel.Dock="Right" Width="350">
